@@ -1,0 +1,748 @@
+/* --- Base & Fonts --- */
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(180deg, #111827 0%, #0c121e 100%);
+}
+
+/* --- Navigation Bar --- */
+.nav-button {
+    color: #9ca3af;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    border: 2px solid transparent;
+}
+.nav-button:hover {
+    color: #ffffff;
+    background-color: #374151;
+}
+.nav-button.active {
+    color: #60a5fa;
+    border-color: #60a5fa;
+}
+.nav-button-special {
+    background-color: #3b82f6;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+.nav-button-special:hover {
+    background-color: #2563eb;
+    transform: scale(1.05);
+}
+
+/* --- Page & Content Styling --- */
+.page-content {
+    animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.page-header {
+    background: rgba(31, 41, 55, 0.3);
+    border: 1px solid #374151;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+/* --- Filter Bar --- */
+.filter-bar {
+    background-color: rgba(31, 41, 55, 0.5); /* bg-gray-800 with transparency */
+    backdrop-filter: blur(5px);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid #374151; /* border-gray-700 */
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+@media (min-width: 768px) {
+    .filter-bar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+.filter-search {
+    width: 100%;
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+.filter-search:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+.filter-controls {
+    display: flex;
+    gap: 1rem;
+}
+.filter-select {
+    width: 100%;
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    border-radius: 8px;
+    padding: 0.75rem;
+    color: white;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+}
+
+/* --- Car List Item Card (Professional Redesign) --- */
+.car-list-item {
+    background: linear-gradient(135deg, rgba(31, 41, 55, 0.5) 0%, rgba(17, 24, 39, 0.5) 100%);
+    border: 1px solid #374151;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    transform: translateX(-30px);
+    backdrop-filter: blur(5px);
+}
+.car-list-item.is-visible { opacity: 1; transform: translateX(0); }
+.car-list-item:hover { transform: scale(1.02); box-shadow: 0 0 35px rgba(59, 130, 246, 0.3); border-color: #3b82f6; }
+.car-list-img { width: 250px; min-width: 250px; object-fit: cover; border-right: 1px solid #374151;}
+.car-list-details { padding: 16px; display: flex; flex-direction: column; flex: 1; }
+.details-button { opacity: 0; transform: translateY(10px); transition: all 0.3s ease; }
+.car-list-item:hover .details-button { opacity: 1; transform: translateY(0); }
+.favorite-btn { color: #6b7280; transition: all 0.2s ease; }
+.favorite-btn:hover { color: #ef4444; transform: scale(1.2); }
+.favorite-btn.favorited { color: #ef4444; }
+
+/* --- Professional Chatbot UI --- */
+.chatbot-fullscreen-container {
+    height: 78vh;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    background: rgba(17, 24, 39, 0.7);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+.chatbot-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #374151;
+    background: rgba(31, 41, 55, 0.5);
+}
+.chatbot-log { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+.chatbot-input-area { padding: 1rem; border-top: 1px solid #374151; display: flex; gap: 1rem; background: rgba(17, 24, 39, 0.8); }
+.chatbot-input {
+    width: 100%;
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    border-radius: 9999px;
+    padding: 0.75rem 1.25rem;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+.chatbot-input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 10px #3b82f6; }
+.chatbot-send-btn {
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.chatbot-send-btn:hover { background-color: #2563eb; transform: scale(1.1); }
+
+/* --- New Chat Message Bubbles --- */
+.message-container { display: flex; max-width: 75%; gap: 0.75rem; align-items: flex-end; }
+.avatar {
+    width: 40px; height: 40px; border-radius: 50%; background-color: #4b5563;
+    display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;
+}
+.message-content {
+    background-color: #374151; padding: 0.75rem 1rem; border-radius: 18px;
+    line-height: 1.5; color: #d1d5db; animation: popIn 0.3s ease;
+}
+@keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.user-message { flex-direction: row-reverse; align-self: flex-end; margin-left: auto; }
+.user-message .message-content { background-color: #3b82f6; color: white; border-bottom-right-radius: 4px; }
+.bot-message .message-content { border-bottom-left-radius: 4px; }
+.bot-message.initial-bot-message .message-content { background: linear-gradient(45deg, #3b82f6, #60a5fa); }
+
+/* --- Bot Typing Indicator --- */
+.typing-indicator { align-self: flex-start; display: flex; align-items: center; gap: 0.75rem;}
+.typing-indicator .message-content { padding: 1rem; display: flex; gap: 0.5rem; }
+.typing-dot { width: 8px; height: 8px; background-color: #9ca3af; border-radius: 50%; animation: typing-bounce 1.2s infinite ease-in-out; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+/* --- Advanced Background Animation --- */
+#chatbot-animation-bg {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: #0c121e; overflow: hidden; z-index: -1;
+}
+@keyframes particle-flow { from { transform: translateY(100vh) scale(0); } to { transform: translateY(-10vh) scale(1); } }
+.particle {
+    position: absolute; border-radius: 50%;
+    background: rgba(59, 130, 246, 0.3);
+    animation: particle-flow linear infinite;
+}
+
+/* --- Add Listing Form --- */
+.add-listing-form-container {
+    max-width: 3xl;
+    margin: auto;
+    background-color: #1f2937;
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid #374151;
+}
+.form-input {
+    width: 100%;
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+.form-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+.form-submit-btn {
+    background-color: #16a34a;
+    color: white;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.2s ease-in-out;
+}
+.form-submit-btn:hover {
+    background-color: #15803d;
+    transform: scale(1.02);
+}
+
+/* --- Glassmorphism Modal --- */
+.glass-modal-bg { backdrop-filter: blur(10px); }
+
+/* --- Loading States --- */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    min-height: 300px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #374151;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- Error States --- */
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    min-height: 300px;
+    text-align: center;
+}
+
+.error-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+/* --- Toast Notifications --- */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    max-width: 400px;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast-success {
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+}
+
+.toast-error {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.toast-info {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+/* --- Enhanced Form Styling --- */
+.add-listing-form-container {
+    max-width: 800px;
+    margin: auto;
+    background: linear-gradient(135deg, rgba(31, 41, 55, 0.9) 0%, rgba(17, 24, 39, 0.9) 100%);
+    padding: 2.5rem;
+    border-radius: 16px;
+    border: 1px solid #374151;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.form-input::placeholder {
+    color: #9ca3af;
+}
+
+.form-input:hover {
+    border-color: #60a5fa;
+}
+
+.form-submit-btn:active {
+    transform: scale(0.98);
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    .car-list-item {
+        flex-direction: column;
+    }
+    
+    .car-list-img {
+        width: 100%;
+        min-width: 100%;
+        height: 250px;
+        border-right: none;
+        border-bottom: 1px solid #374151;
+    }
+    
+    .filter-bar {
+        flex-direction: column;
+    }
+    
+    .filter-controls {
+        width: 100%;
+        flex-direction: column;
+    }
+    
+    .filter-select {
+        width: 100%;
+    }
+    
+    .toast {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        transform: translateY(-100px);
+    }
+    
+    .toast.show {
+        transform: translateY(0);
+    }
+    
+    .chatbot-fullscreen-container {
+        height: calc(100vh - 200px);
+    }
+}
+
+/* --- Smooth Scrolling --- */
+html {
+    scroll-behavior: smooth;
+}
+
+.chatbot-log {
+    scroll-behavior: smooth;
+}
+
+/* --- Enhanced Card Animations --- */
+.car-list-item {
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Custom Scrollbar --- */
+.chatbot-log::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chatbot-log::-webkit-scrollbar-track {
+    background: rgba(31, 41, 55, 0.5);
+    border-radius: 4px;
+}
+
+.chatbot-log::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 4px;
+}
+
+.chatbot-log::-webkit-scrollbar-thumb:hover {
+    background: #2563eb;
+}
+
+/* --- Enhanced Button Styles --- */
+.details-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.details-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.details-button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* --- Enhanced Modal --- */
+#car-info-modal {
+    animation: fadeIn 0.3s ease;
+}
+
+#car-info-modal > div {
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* --- Focus States for Accessibility --- */
+.nav-button:focus,
+.filter-search:focus,
+.filter-select:focus,
+.form-input:focus,
+.chatbot-input:focus,
+.details-button:focus,
+.form-submit-btn:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* --- Loading Skeleton --- */
+.skeleton {
+    background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* --- Interactive Globe Styles --- */
+.globe-container {
+    width: 100%;
+    height: calc(100vh - 150px);
+    min-height: 600px;
+    position: relative;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #374151;
+}
+
+.globe-header {
+    padding: 1.5rem;
+    background: rgba(31, 41, 55, 0.5);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #374151;
+}
+
+.globe-canvas-wrapper {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 100px);
+}
+
+#globe-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: grab;
+    touch-action: none;
+}
+
+#globe-canvas:active {
+    cursor: grabbing;
+}
+
+.country-info-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 400px;
+    max-width: 90%;
+    max-height: 80%;
+    background: linear-gradient(135deg, rgba(31, 41, 55, 0.95) 0%, rgba(17, 24, 39, 0.95) 100%);
+    border: 1px solid #3b82f6;
+    border-radius: 16px;
+    padding: 1.5rem;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    z-index: 100;
+    animation: slideInRight 0.3s ease;
+}
+
+.country-info-panel.hidden {
+    display: none;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.country-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #374151;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: #ef4444;
+}
+
+.country-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.5);
+    transform: translateX(5px);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #60a5fa;
+}
+
+.stat-sub {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+.top-cars-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #374151;
+}
+
+.top-cars-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.top-car-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(17, 24, 39, 0.5);
+    border-radius: 8px;
+    border: 1px solid #374151;
+    transition: all 0.2s ease;
+}
+
+.top-car-item:hover {
+    background: rgba(31, 41, 55, 0.7);
+    border-color: #3b82f6;
+}
+
+.car-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.car-info strong {
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+
+.car-year {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+.car-price {
+    font-weight: bold;
+    color: #60a5fa;
+    font-size: 0.9rem;
+}
+
+.globe-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 1.5rem;
+    background: rgba(31, 41, 55, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid #374151;
+    border-radius: 12px;
+    z-index: 10;
+}
+
+.control-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.control-label {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+.control-value {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #60a5fa;
+}
+
+@media (max-width: 768px) {
+    .country-info-panel {
+        width: 90%;
+        max-width: 90%;
+        top: 10px;
+        right: 10px;
+        left: 10px;
+    }
+    
+    .globe-container {
+        height: calc(100vh - 200px);
+        min-height: 500px;
+    }
+    
+    .globe-controls {
+        bottom: 10px;
+        left: 10px;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
