@@ -1,42 +1,131 @@
 // --- DOM Element Selection (Complete & Merged) ---
-export const DOM = {
-    // Logo
-    logoBtn: document.getElementById('logo-btn'),
-    // Nav Buttons
-    navButtons: {
-        listings: document.getElementById('nav-listings'),
-        reviews: document.getElementById('nav-reviews'),
-        favorites: document.getElementById('nav-favorites'),
-        chatbot: document.getElementById('nav-chatbot'),
-        addListing: document.getElementById('nav-add-listing'),
-    },
-    // Page Containers
-    pages: {
-        listings: document.getElementById('page-listings'),
-        reviews: document.getElementById('page-reviews'),
-        favorites: document.getElementById('page-favorites'),
-        chatbot: document.getElementById('page-chatbot'),
-        addListing: document.getElementById('page-add-listing'),
-    },
-    // Filter Controls
-    searchInput: document.getElementById('search-input'),
-    makeFilter: document.getElementById('make-filter'),
-    sortFilter: document.getElementById('sort-filter'),
-    // Content Containers
-    listingsContainer: document.getElementById('listings-container'),
-    reviewsContainer: document.getElementById('reviews-container'),
-    favoritesContainer: document.getElementById('favorites-container'),
-    // "Add Listing" Form
-    addListingForm: document.getElementById('add-listing-form'),
-    // Chatbot UI
-    chatbotLog: document.getElementById('chatbot-log-fullscreen'),
-    chatbotInput: document.getElementById('chatbot-input-fullscreen'),
-    chatbotSendBtn: document.getElementById('chatbot-send-btn-fullscreen'),
-    // Car Details Modal
-    carInfoModal: document.getElementById('car-info-modal'),
-    carInfoContent: document.getElementById('car-info-content'),
-    carInfoCloseBtn: document.getElementById('car-info-close-btn'),
-};
+// Initialize DOM elements with null checks
+function initializeDOM() {
+    return {
+        // Logo
+        logoBtn: document.getElementById('logo-btn'),
+        // Nav Buttons
+        navButtons: {
+            listings: document.getElementById('nav-listings'),
+            reviews: document.getElementById('nav-reviews'),
+            favorites: document.getElementById('nav-favorites'),
+            myListings: document.getElementById('nav-my-listings'),
+            profile: document.getElementById('nav-profile'),
+            chatbot: document.getElementById('nav-chatbot'),
+            analytics: document.getElementById('nav-analytics'),
+            addListing: document.getElementById('nav-add-listing'),
+        },
+        navMoreToggle: document.getElementById('nav-more-toggle'),
+        navMoreMenu: document.getElementById('nav-more-menu'),
+        // Page Containers
+        pages: {
+            login: document.getElementById('page-login'),
+            signup: document.getElementById('page-signup'),
+            listings: document.getElementById('page-listings'),
+            reviews: document.getElementById('page-reviews'),
+            favorites: document.getElementById('page-favorites'),
+            myListings: document.getElementById('page-my-listings'),
+            profile: document.getElementById('page-profile'),
+            chatbot: document.getElementById('page-chatbot'),
+            analytics: document.getElementById('page-analytics'),
+            addListing: document.getElementById('page-add-listing'),
+        },
+        // Auth Elements
+        navAuthSection: document.getElementById('nav-auth-section'),
+        navMainSection: document.getElementById('nav-main-section'),
+        userNameDisplay: document.getElementById('user-name-display'),
+        navLogout: document.getElementById('nav-logout'),
+        themeToggleButtons: Array.from(document.querySelectorAll('.theme-toggle-btn')),
+        settingsCurrencySelect: document.getElementById('settings-currency-select'),
+        loginForm: document.getElementById('login-form'),
+        signupForm: document.getElementById('signup-form'),
+        switchToSignup: document.getElementById('switch-to-signup'),
+        switchToLogin: document.getElementById('switch-to-login'),
+        loginError: document.getElementById('login-error'),
+        signupError: document.getElementById('signup-error'),
+        // Filter Controls
+        searchInput: document.getElementById('search-input'),
+        makeFilter: document.getElementById('make-filter'),
+        sortFilter: document.getElementById('sort-filter'),
+        // Content Containers
+        listingsContainer: document.getElementById('listings-container'),
+        reviewsContainer: document.getElementById('reviews-container'),
+        favoritesContainer: document.getElementById('favorites-container'),
+        myListingsContainer: document.getElementById('my-listings-container'),
+        // "Add Listing" Form
+        addListingForm: document.getElementById('add-listing-form'),
+        priceEstimateBtn: document.getElementById('price-estimate-btn'),
+        priceEstimateResult: document.getElementById('price-estimate-result'),
+        visionImageInput: document.getElementById('vision-image-input'),
+        visionAnalyzeBtn: document.getElementById('vision-analyze-btn'),
+        visionApplyBtn: document.getElementById('vision-apply-btn'),
+        visionHelperOutput: document.getElementById('vision-helper-output'),
+        listingImageDropzone: document.getElementById('listing-image-dropzone'),
+        listingImageFileInput: document.getElementById('listing-image-file'),
+        listingImageUrlInput: document.getElementById('listing-image-url'),
+        listingImageStatus: document.getElementById('listing-image-status'),
+        listingImagePreview: document.getElementById('listing-image-preview'),
+        listingImagePreviewImg: document.getElementById('listing-image-preview-img'),
+        listingImagePreviewName: document.getElementById('listing-image-preview-name'),
+        listingImageRemoveBtn: document.getElementById('listing-image-remove-btn'),
+        // Chatbot UI
+        chatbotInputArea: document.getElementById('chatbot-input-area'),
+        chatbotLog: document.getElementById('chatbot-log-fullscreen'),
+        chatbotInput: document.getElementById('chatbot-input-fullscreen'),
+        chatbotSendBtn: document.getElementById('chatbot-send-btn-fullscreen'),
+        chatbotAttachBtn: document.getElementById('chatbot-attach-btn'),
+        chatbotAttachmentInput: document.getElementById('chatbot-attachment-input'),
+        chatbotAttachmentPreview: document.getElementById('chatbot-attachment-preview'),
+        chatbotAttachmentPreviewImg: document.getElementById('chatbot-attachment-preview-img'),
+        chatbotAttachmentName: document.getElementById('chatbot-attachment-name'),
+        chatbotAttachmentRemoveBtn: document.getElementById('chatbot-attachment-remove-btn'),
+        chatbotAttachmentHint: document.getElementById('chatbot-attachment-hint'),
+        assistantTipsPanel: document.getElementById('assistant-tips-panel'),
+        assistantTipsDismissBtn: document.getElementById('assistant-tips-dismiss'),
+        // Chatbot New Chat Button
+        chatbotNewChatBtn: document.getElementById('chatbot-new-chat-btn'),
+        chatbotChatList: document.getElementById('chatbot-chat-list'),
+        // Car Details Modal
+        carInfoModal: document.getElementById('car-info-modal'),
+        carInfoContent: document.getElementById('car-info-content'),
+        carInfoCloseBtn: document.getElementById('car-info-close-btn'),
+        // Edit Listing Modal
+        editListingModal: document.getElementById('edit-listing-modal'),
+        editListingForm: document.getElementById('edit-listing-form'),
+        editListingCancelBtn: document.getElementById('edit-listing-cancel-btn'),
+        // Semantic search
+        semanticSearchInput: document.getElementById('semantic-search-input'),
+        semanticSearchBtn: document.getElementById('semantic-search-btn'),
+        semanticSearchResults: document.getElementById('semantic-search-results'),
+        // Mobile Menu
+        mobileMenuToggle: document.getElementById('mobile-menu-toggle'),
+        mobileMenu: document.getElementById('mobile-menu'),
+    };
+}
+
+export const DOM = initializeDOM();
+
+const PLACEHOLDER_IMAGE = 'img/car-placeholder-card.svg';
+let priceFormatter = null;
+
+export function setPriceFormatter(formatter) {
+    priceFormatter = typeof formatter === 'function' ? formatter : null;
+}
+
+function formatPrice(value, currency = 'AED') {
+    if (typeof value !== 'number' || Number.isNaN(value)) {
+        return 'N/A';
+    }
+    if (priceFormatter) {
+        return priceFormatter(value, currency);
+    }
+    return `${new Intl.NumberFormat().format(value)} ${currency || 'AED'}`;
+}
+
+// Re-initialize DOM elements if needed (for dynamic content)
+export function refreshDOM() {
+    Object.assign(DOM, initializeDOM());
+}
 
 /**
  * Shows a specific page and hides others, updates nav button state.
@@ -47,9 +136,28 @@ export function showPage(pageId) {
     if (DOM.pages[pageId]) {
         DOM.pages[pageId].classList.remove('hidden');
     }
-    Object.values(DOM.navButtons).forEach(btn => btn.classList.remove('active'));
-    if (DOM.navButtons[pageId]) {
-        DOM.navButtons[pageId].classList.add('active');
+    
+    // Update nav button states
+    Object.values(DOM.navButtons).forEach(btn => {
+        if (btn) {
+            btn.classList.remove('active');
+        }
+    });
+    
+    // Set active state for current page button
+    const buttonMap = {
+        'listings': DOM.navButtons.listings,
+        'reviews': DOM.navButtons.reviews,
+        'favorites': DOM.navButtons.favorites,
+        'myListings': DOM.navButtons.myListings,
+        'profile': DOM.navButtons.profile,
+        'chatbot': DOM.navButtons.chatbot,
+        'analytics': DOM.navButtons.analytics,
+        'addListing': DOM.navButtons.addListing
+    };
+    
+    if (buttonMap[pageId]) {
+        buttonMap[pageId]?.classList.add('active');
     }
 }
 
@@ -105,13 +213,15 @@ function createCarListItem(car, favorites = []) {
     card.className = 'car-list-item';
     const isFavorited = favorites.includes(car.id);
     const specs = car.specs || {};
-    const imageUrl = car.image || 'https://via.placeholder.com/400x300?text=No+Image';
+    const imageUrl = car.image || PLACEHOLDER_IMAGE;
 
     card.innerHTML = `
         <img src="${imageUrl}" 
              alt="${car.make} ${car.model}" 
              class="car-list-img"
-             onerror="this.src='https://via.placeholder.com/400x300?text=Image+Error'">
+             loading="lazy"
+             decoding="async"
+             onerror="this.onerror=null;this.src='img/car-placeholder-card.svg'">
         <div class="car-list-details">
             <div>
                 <div class="flex justify-between items-start">
@@ -132,7 +242,7 @@ function createCarListItem(car, favorites = []) {
                         <span class="text-gray-400 text-sm">(${car.reviews || 0} reviews)</span>
                     </div>
                 ` : ''}
-                <p class="text-3xl font-bold text-blue-400 mt-4">${new Intl.NumberFormat().format(car.price || 0)} ${car.currency || 'AED'}</p>
+                <p class="text-3xl font-bold text-blue-400 mt-4">${formatPrice(car.price || 0, car.currency || 'AED')}</p>
             </div>
             <div class="mt-4 flex justify-end gap-2">
                 <button class="details-button bg-blue-600 text-white py-2 px-5 rounded-lg hover:bg-blue-700 transition-colors" data-car-id="${car.id}">View Details</button>
@@ -225,43 +335,38 @@ export function showCarInfoModal(car) {
     }
     
     const content = `
-        <div class="bg-gray-800 bg-opacity-95 border border-gray-700 rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto transform transition-all">
-            <div id="car-info-content" class="p-6">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h2 class="text-3xl font-bold text-white mb-2">${car.make} ${car.model} ${car.year ? `(${car.year})` : ''}</h2>
-                        <p class="text-2xl font-bold text-blue-400">${new Intl.NumberFormat().format(car.price || 0)} ${car.currency || 'AED'}</p>
-                    </div>
-                    <button id="car-info-close-btn-modal" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-                </div>
-                <div class="mb-6">
-                    <img src="${car.image || 'https://via.placeholder.com/800x400?text=No+Image'}" 
-                         alt="${car.make} ${car.model}" 
-                         class="rounded-lg shadow-md w-full max-h-96 object-cover"
-                         onerror="this.src='https://via.placeholder.com/800x400?text=Image+Not+Available'">
-                </div>
-                <h3 class="text-xl font-semibold text-gray-300 mb-4 border-b border-gray-600 pb-2">Specifications</h3>
-                <div class="grid grid-cols-2 gap-4 text-gray-400 mb-6">
-                    <div><strong class="text-gray-300">Body Style:</strong> ${specs.bodyStyle || 'N/A'}</div>
-                    <div><strong class="text-gray-300">Engine:</strong> ${specs.engine || 'N/A'}</div>
-                    <div><strong class="text-gray-300">Horsepower:</strong> ${specs.horsepower || 0} hp</div>
-                    <div><strong class="text-gray-300">Fuel Economy:</strong> ${specs.fuelEconomy || 'N/A'}</div>
-                    ${Object.entries(specs).filter(([k]) => !['bodyStyle', 'engine', 'horsepower', 'fuelEconomy'].includes(k)).map(([key, value]) => 
-                        `<div><strong class="text-gray-300">${key}:</strong> ${value}</div>`
-                    ).join('')}
-                </div>
-                ${enginesHtml}
-                ${statsHtml}
-                ${car.rating ? `
-                    <div class="mt-6 flex items-center gap-2">
-                        ${createStarRating(car.rating)}
-                        <span class="text-yellow-400 font-bold text-xl">${car.rating.toFixed(1)}</span>
-                        <span class="text-gray-400">(${car.reviews || 0} reviews)</span>
-                    </div>
-                ` : ''}
+        <div class="flex justify-between items-start mb-4">
+            <div>
+                <h2 class="text-3xl font-bold text-white mb-2">${car.make} ${car.model} ${car.year ? `(${car.year})` : ''}</h2>
+                <p class="text-2xl font-bold text-blue-400">${formatPrice(car.price || 0, car.currency || 'AED')}</p>
             </div>
-        </div>`;
-    DOM.carInfoModal.innerHTML = content;
+        </div>
+        <div class="mb-6">
+            <img src="${car.image || PLACEHOLDER_IMAGE}" 
+                 alt="${car.make} ${car.model}" 
+                 class="rounded-lg shadow-md w-full max-h-96 object-cover"
+                 onerror="this.onerror=null;this.src='img/car-placeholder-card.svg'">
+        </div>
+        <h3 class="text-xl font-semibold text-gray-300 mb-4 border-b border-gray-600 pb-2">Specifications</h3>
+        <div class="grid grid-cols-2 gap-4 text-gray-400 mb-6">
+            <div><strong class="text-gray-300">Body Style:</strong> ${specs.bodyStyle || 'N/A'}</div>
+            <div><strong class="text-gray-300">Engine:</strong> ${specs.engine || 'N/A'}</div>
+            <div><strong class="text-gray-300">Horsepower:</strong> ${specs.horsepower || 0} hp</div>
+            <div><strong class="text-gray-300">Fuel Economy:</strong> ${specs.fuelEconomy || 'N/A'}</div>
+            ${Object.entries(specs).filter(([k]) => !['bodyStyle', 'engine', 'horsepower', 'fuelEconomy'].includes(k)).map(([key, value]) => 
+                `<div><strong class="text-gray-300">${key}:</strong> ${value}</div>`
+            ).join('')}
+        </div>
+        ${enginesHtml}
+        ${statsHtml}
+        ${car.rating ? `
+            <div class="mt-6 flex items-center gap-2">
+                ${createStarRating(car.rating)}
+                <span class="text-yellow-400 font-bold text-xl">${car.rating.toFixed(1)}</span>
+                <span class="text-gray-400">(${car.reviews || 0} reviews)</span>
+            </div>
+        ` : ''}`;
+    
     DOM.carInfoContent.innerHTML = content;
     
     // Add event listener to the close button
@@ -294,6 +399,31 @@ export function createParticles() {
         particle.style.opacity = Math.random() * 0.5 + 0.1;
         bg.appendChild(particle);
     }
+    
+}
+
+/**
+ * Clears the chatbot chat and resets to welcome message
+ */
+export function resetChatbotChat() {
+    if (!DOM.chatbotLog) return;
+    
+    DOM.chatbotLog.innerHTML = `
+        <div class="message-container bot-message initial-bot-message" data-message-id="welcome">
+            <div class="avatar">AI</div>
+            <div class="message-content">
+                <p>Welcome to the IntelliWheels AI Assistant. How can I help you today?</p>
+            </div>
+            <div class="message-rating hidden">
+                <span class="text-xs text-gray-400 mr-2">Rate this response:</span>
+                <button class="rating-btn" data-rating="1" title="Poor">⭐</button>
+                <button class="rating-btn" data-rating="2" title="Fair">⭐</button>
+                <button class="rating-btn" data-rating="3" title="Good">⭐</button>
+                <button class="rating-btn" data-rating="4" title="Very Good">⭐</button>
+                <button class="rating-btn" data-rating="5" title="Excellent">⭐</button>
+            </div>
+        </div>
+    `;
 }
 
 /**
@@ -301,26 +431,185 @@ export function createParticles() {
  * @param {string} message - The text content of the message.
  * @param {string} sender - The sender ('user' or 'bot').
  */
-export function appendMessage(message, sender) {
+export async function appendMessage(message, sender, carIds = [], messageId = null, listingData = null, actionType = null, attachment = null) {
+    if (!DOM.chatbotLog) {
+        console.warn('Chatbot log container not found');
+        return;
+    }
+    
     const messageEl = document.createElement('div');
     messageEl.className = `message-container ${sender}-message`;
-    const avatarName = sender === 'bot' ? 'AI' : 'You';
+    if (messageId) {
+        messageEl.setAttribute('data-message-id', messageId);
+    }
+
+    let carRecommendationsHtml = '';
+    let listingSummaryHtml = '';
+    const carDataMap = new Map();
+    
+    if (sender === 'bot' && carIds && carIds.length > 0) {
+        // Fetch car details and create recommendation cards
+        const { getCar } = await import('./api.js');
+        
+        carRecommendationsHtml = '<div class="car-recommendations mt-4 space-y-2">';
+        carRecommendationsHtml += '<p class="text-sm text-gray-400 font-semibold mb-2">💡 Recommended Cars:</p>';
+        
+        // Fetch all cars in parallel
+        const carPromises = carIds.slice(0, 3).map(async (carId) => {
+            try {
+                const carResponse = await getCar(carId);
+                if (carResponse.success && carResponse.car) {
+                    return carResponse.car;
+                }
+            } catch (error) {
+                console.error(`Error fetching car ${carId}:`, error);
+            }
+            return null;
+        });
+        
+        const cars = await Promise.all(carPromises);
+        
+        for (const car of cars) {
+            if (car) {
+                carDataMap.set(car.id, car);
+                carRecommendationsHtml += `
+                    <div class="car-recommendation-card bg-gray-800 bg-opacity-50 rounded-lg p-3 border border-gray-700 hover:border-blue-500 transition-colors cursor-pointer" data-car-id="${car.id}">
+                        <div class="flex items-center gap-3">
+                            ${car.image ? `<img src="${car.image}" alt="${car.make} ${car.model}" class="w-16 h-16 object-cover rounded" onerror="this.style.display='none'">` : ''}
+                            <div class="flex-1">
+                                <h4 class="text-white font-semibold">${car.make} ${car.model} ${car.year ? `(${car.year})` : ''}</h4>
+                                <p class="text-blue-400 font-bold">${formatPrice(car.price || 0, car.currency || 'AED')}</p>
+                                ${car.rating > 0 ? `<p class="text-yellow-400 text-sm">⭐ ${car.rating.toFixed(1)} (${car.reviews || 0} reviews)</p>` : ''}
+                            </div>
+                            <button class="text-blue-400 hover:text-blue-300 text-sm font-semibold">View →</button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        carRecommendationsHtml += '</div>';
+    }
+    
+    if (sender === 'bot' && listingData && actionType === 'create_listing') {
+        const serializedListing = JSON.stringify(listingData).replace(/"/g, '&quot;');
+        listingSummaryHtml = `
+            <div class="mt-4 p-4 bg-blue-900 bg-opacity-30 rounded-lg border border-blue-600">
+                <h4 class="text-white font-semibold mb-2">📋 Listing Summary</h4>
+                <div class="text-sm text-gray-300 space-y-1">
+                    ${listingData.make ? `<p><strong>Make:</strong> ${listingData.make}</p>` : ''}
+                    ${listingData.model ? `<p><strong>Model:</strong> ${listingData.model}</p>` : ''}
+                    ${listingData.year ? `<p><strong>Year:</strong> ${listingData.year}</p>` : ''}
+                    ${listingData.price ? `<p><strong>Price:</strong> ${formatPrice(Number(listingData.price) || 0, listingData.currency || 'AED')}</p>` : ''}
+                </div>
+                <button class="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors create-listing-btn" data-listing-data="${serializedListing}">
+                    Create Listing
+                </button>
+            </div>
+        `;
+    }
+
+    const attachmentHtml = attachment && attachment.type === 'image' && attachment.src
+        ? `
+            <div class="message-attachment">
+                <img src="${attachment.src}" alt="${attachment.alt || 'Image attachment'}">
+                ${attachment.caption ? `<p class="message-attachment-caption">${attachment.caption}</p>` : ''}
+            </div>
+        `
+        : '';
 
     messageEl.innerHTML = `
         <div class="avatar">${avatarName}</div>
         <div class="message-content">
+            ${attachmentHtml}
             <p>${message}</p>
+            ${carRecommendationsHtml}
+            ${listingSummaryHtml}
         </div>
     `;
     DOM.chatbotLog.appendChild(messageEl);
     DOM.chatbotLog.scrollTop = DOM.chatbotLog.scrollHeight;
+    
+    // Add click handlers for car recommendation cards
+    if (carIds && carIds.length > 0 && carDataMap.size > 0) {
+        const cards = messageEl.querySelectorAll('.car-recommendation-card');
+        cards.forEach(card => {
+            card.addEventListener('click', async () => {
+                const carId = parseInt(card.dataset.carId);
+                const car = carDataMap.get(carId);
+                if (car) {
+                    // Use the showCarInfoModal function from the current module
+                    showCarInfoModal(car);
+                } else {
+                    // Fallback: fetch car if not in map
+                    const { getCar } = await import('./api.js');
+                    try {
+                        const response = await getCar(carId);
+                        if (response.success && response.car) {
+                            showCarInfoModal(response.car);
+                        }
+                    } catch (error) {
+                        console.error('Error loading car details:', error);
+                    }
+                }
+            });
+        });
+    }
+    
+    if (listingSummaryHtml) {
+        const createBtn = messageEl.querySelector('.create-listing-btn');
+        if (createBtn) {
+            createBtn.addEventListener('click', async () => {
+                const data = JSON.parse(createBtn.dataset.listingData);
+                if (window.handleCreateListingFromAssistant) {
+                    await window.handleCreateListingFromAssistant(data);
+                }
+            });
+        }
+    }
+    
+    // Add rating button handlers for bot messages
+    if (sender === 'bot' && messageId) {
+        const ratingButtons = messageEl.querySelectorAll('.rating-btn');
+        ratingButtons.forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const rating = parseInt(btn.dataset.rating);
+                const msgId = btn.dataset.messageId;
+                
+                // Disable all rating buttons
+                ratingButtons.forEach(b => {
+                    b.disabled = true;
+                    b.style.opacity = '0.5';
+                });
+                
+                // Highlight selected rating
+                for (let i = 1; i <= rating; i++) {
+                    const btnToHighlight = messageEl.querySelector(`.rating-btn[data-rating="${i}"]`);
+                    if (btnToHighlight) {
+                        btnToHighlight.style.color = '#fbbf24'; // Yellow
+                    }
+                }
+                
+                // Submit rating
+                try {
+                    const { rateChatbotResponse } = await import('./api.js');
+                    await rateChatbotResponse(msgId, rating);
+                } catch (error) {
+                    console.error('Error rating message:', error);
+                }
+            });
+        });
+    }
 }
 
 /**
  * Shows the bot typing indicator.
  */
-export function showTypingIndicator() {
-    if (document.getElementById('typing-indicator')) return;
+export function showTypingIndicator(container = null) {
+    const targetContainer = container || DOM.chatbotLog;
+    if (!targetContainer) return;
+    
+    if (targetContainer.querySelector('#typing-indicator')) return;
     const typingEl = document.createElement('div');
     typingEl.id = 'typing-indicator';
     typingEl.className = 'message-container bot-message typing-indicator';
@@ -339,8 +628,11 @@ export function showTypingIndicator() {
 /**
  * Hides the bot typing indicator.
  */
-export function hideTypingIndicator() {
-    const typingEl = document.getElementById('typing-indicator');
+export function hideTypingIndicator(container = null) {
+    const targetContainer = container || DOM.chatbotLog;
+    if (!targetContainer) return;
+    
+    const typingEl = targetContainer.querySelector('#typing-indicator');
     if (typingEl) {
         typingEl.remove();
     }

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" role="img" aria-labelledby="title desc">
+  <title id="title">Car image placeholder</title>
+  <desc id="desc">Stylized gradient background with car outline indicating a missing image</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)" rx="20" />
+  <g fill="none" stroke="url(#accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M80 190c10-30 30-70 60-70h70c25 0 50 40 60 70" />
+    <circle cx="130" cy="210" r="24" />
+    <circle cx="270" cy="210" r="24" />
+  </g>
+  <text x="200" y="120" fill="#cbd5f5" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="600">
+    Image unavailable
+  </text>
+  <text x="200" y="150" fill="#94a3b8" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="14">
+    Upload a photo to replace this placeholder
+  </text>
+</svg>

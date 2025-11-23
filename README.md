@@ -6,6 +6,9 @@ A modern, professional car catalog application with AI chatbot integration, buil
 
 - 🚗 **Complete Car Catalog** - View, search, filter, and manage car listings
 - 🤖 **AI Chatbot** - Integrated Google Gemini AI for car-related questions
+- 💰 **AI Price Advisor** - Trainable regression model for instant fair-price estimates
+- 📷 **Vision Helper** - Gemini-powered photo analysis to auto-fill listing details
+- 🔍 **Semantic Search** - Vector-based discovery that understands natural language intents
 - ⭐ **Favorites System** - Save and manage favorite cars
 - 📊 **Excel Data Integration** - Reads from 5 Excel sheets (Make-Model-Year, Make-Model, Basic Specs, Engine Specs, Statistics)
 - 🎨 **Modern UI** - Professional, responsive design with smooth animations
@@ -48,9 +51,21 @@ Then run the ingestion script:
 python ingest_excel_to_db.py
 ```
 
-This will create `intelliwheels.db` and populate it with data from all 5 Excel sheets.
+### 3. Train the AI Helpers
 
-### 3. Configure Gemini API Key
+Run the training utilities whenever you refresh the catalog to keep the ML models in sync with the database:
+
+```bash
+# Train the fair-price regression pipeline and export models/fair_price_model.joblib
+python models/train_price_model.py
+
+# Build sentence-transformer embeddings for semantic search
+python models/build_embeddings.py
+```
+
+Both commands read from `intelliwheels.db` and write artifacts under `models/`. The Flask API automatically loads these files on startup.
+
+### 4. Configure Gemini API Key
 
 Edit `js/main.js` and replace `YOUR_GEMINI_API_KEY_HERE` with your actual Gemini API key:
 
@@ -64,7 +79,7 @@ Alternatively, you can set it as an environment variable:
 export GEMINI_API_KEY="your-actual-api-key-here"
 ```
 
-### 4. Start the Backend Server
+### 5. Start the Backend Server
 
 ```bash
 python app.py
@@ -72,7 +87,7 @@ python app.py
 
 The server will start on `http://localhost:5000`
 
-### 5. Open the Frontend
+### 6. Open the Frontend
 
 Simply open `index.html` in your web browser, or use a local server:
 
@@ -108,6 +123,12 @@ Then navigate to `http://localhost:8000` (or your chosen port)
 
 ### Chatbot
 - `POST /api/chatbot` - Send a message to the AI chatbot
+- `POST /api/listing-assistant` - Guided listing creation and editing via Gemini
+
+### AI Utilities
+- `POST /api/price-estimate` - Returns a fair-price prediction based on make/model/year/specs
+- `POST /api/vision-helper` - Upload a photo and get structured listing suggestions
+- `GET /api/semantic-search` - Natural-language search powered by vector embeddings
 
 ### Health
 - `GET /api/health` - Health check endpoint
@@ -124,6 +145,11 @@ IntelliWheels/
 ├── index.html             # Main HTML file
 ├── css/
 │   └── style.css          # Enhanced modern styling
+├── models/
+│   ├── train_price_model.py   # Trains the fair-price regression pipeline
+│   ├── build_embeddings.py    # Generates semantic vectors for catalog search
+│   ├── fair_price_model.joblib
+│   └── car_embeddings.json
 └── js/
     ├── main.js            # Main application logic
     ├── api.js             # API client
@@ -146,6 +172,19 @@ IntelliWheels/
 - Ask questions about cars, maintenance, specifications
 - Get recommendations and comparisons
 - Powered by Google Gemini AI
+
+### AI Price Advisor
+- Trained Gradient Boosting model with automatic feature engineering
+- Single endpoint (`/api/price-estimate`) used by the Add Listing form
+- Metrics stored in `models/fair_price_model_metrics.json`
+
+### Vision Helper
+- Upload any car photo and receive structured suggestions (make/model/year/etc.)
+- Gemini 1.5 Flash converts the picture into JSON the UI can auto-fill
+
+### Semantic Search
+- SentenceTransformer embeddings let users search with natural language prompts
+- `/api/semantic-search` returns similarity scores plus ready-to-render cars
 
 ### Favorites
 - Save cars to favorites

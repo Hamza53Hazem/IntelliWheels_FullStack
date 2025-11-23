@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IntelliWheels</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tailwind.build.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-gray-900 text-white">
+<body class="theme-light" style="font-family: 'Inter', sans-serif;">
 
     <nav class="bg-gray-900 bg-opacity-70 backdrop-blur-lg sticky top-0 z-40 border-b border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,12 +18,100 @@
                 <button id="logo-btn" class="flex-shrink-0 text-2xl font-bold text-white focus:outline-none">
                     Intelli<span class="text-blue-400">Wheels</span>
                 </button>
-                <div class="flex items-center space-x-2 md:space-x-4">
-                    <button id="nav-listings" class="nav-button active">Listings</button>
-                    <button id="nav-reviews" class="nav-button">Top Reviews</button>
-                    <button id="nav-favorites" class="nav-button">Favorites</button>
-                    <button id="nav-chatbot" class="nav-button">Chatbot</button>
-                    <button id="nav-add-listing" class="nav-button-special">Add Listing +</button>
+                
+                <!-- Mobile Menu Toggle -->
+                <button id="mobile-menu-toggle" class="mobile-menu-btn hidden">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                
+                <!-- Desktop Navigation -->
+                <div id="nav-main-section" class="nav-main hidden">
+                    <div class="nav-group nav-primary-buttons">
+                        <button id="nav-listings" class="nav-button active">
+                            <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Listings</span>
+                        </button>
+                        <button id="nav-favorites" class="nav-button">
+                            <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Favorites</span>
+                        </button>
+                        <button id="nav-chatbot" class="nav-button">
+                            <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>AI Assistant</span>
+                        </button>
+                    </div>
+
+                    <div class="nav-controls">
+                        <button id="nav-more-toggle" class="nav-button ghost" aria-haspopup="true" aria-expanded="false">
+                            <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 6a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5.25a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5.25a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/>
+                            </svg>
+                            <span>More</span>
+                        </button>
+                        <div id="nav-more-menu" class="nav-dropdown hidden" role="menu">
+                            <div class="nav-dropdown-section">
+                                <p class="nav-dropdown-label">Browse</p>
+                                <button id="nav-reviews" class="nav-dropdown-item" role="menuitem">Top Reviews</button>
+                                <button id="nav-my-listings" class="nav-dropdown-item" role="menuitem">My Listings</button>
+                                <button id="nav-add-listing" class="nav-dropdown-item" role="menuitem">Add Listing</button>
+                            </div>
+                            <div class="nav-dropdown-section">
+                                <p class="nav-dropdown-label">Preferences</p>
+                                <div class="theme-toggle" role="group" aria-label="Theme">
+                                    <button type="button" class="theme-toggle-btn" data-theme="light">Light</button>
+                                    <button type="button" class="theme-toggle-btn" data-theme="dark">Dark</button>
+                                </div>
+                                <label for="settings-currency-select" class="nav-dropdown-label">Display currency</label>
+                                <select id="settings-currency-select" class="nav-dropdown-select">
+                                    <option value="AED">AED</option>
+                                    <option value="SAR">SAR</option>
+                                    <option value="QAR">QAR</option>
+                                    <option value="BHD">BHD</option>
+                                    <option value="KWD">KWD</option>
+                                    <option value="OMR">OMR</option>
+                                    <option value="EGP">EGP</option>
+                                    <option value="MAD">MAD</option>
+                                    <option value="JOD">JOD</option>
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="GBP">GBP</option>
+                                </select>
+                            </div>
+                            <div class="nav-dropdown-section">
+                                <p class="nav-dropdown-label">Account</p>
+                                <button id="nav-profile" class="nav-dropdown-item" role="menuitem">Profile</button>
+                                <button id="nav-analytics" class="nav-dropdown-item" role="menuitem">Analytics</button>
+                                <button id="nav-logout" class="nav-dropdown-item danger" role="menuitem">Logout</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Auth Section -->
+                <div id="nav-auth-section" class="nav-auth">
+                    <span id="user-name-display" class="user-name hidden"></span>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="mobile-menu hidden">
+                <div class="mobile-menu-content">
+                    <button id="mobile-nav-listings" class="mobile-nav-button">Listings</button>
+                    <button id="mobile-nav-reviews" class="mobile-nav-button">Top Reviews</button>
+                    <button id="mobile-nav-favorites" class="mobile-nav-button">Favorites</button>
+                    <button id="mobile-nav-my-listings" class="mobile-nav-button">My Listings</button>
+                    <button id="mobile-nav-chatbot" class="mobile-nav-button">AI Assistant</button>
+                    <button id="mobile-nav-analytics" class="mobile-nav-button">Analytics</button>
+                    <button id="mobile-nav-add-listing" class="mobile-nav-button-special">Add Listing +</button>
                 </div>
             </div>
         </div>
@@ -44,6 +132,11 @@
                     </select>
                 </div>
             </div>
+            <div class="semantic-search-bar">
+                <input type="text" id="semantic-search-input" class="semantic-search-input" placeholder="Describe your ideal car (e.g., luxury hybrid SUV under 200k)">
+                <button id="semantic-search-btn" class="semantic-search-btn">Semantic Search</button>
+            </div>
+            <div id="semantic-search-results" class="semantic-search-results hidden"></div>
             <div id="listings-container" class="space-y-6"></div>
         </main>
 
@@ -70,19 +163,111 @@
                     <h2 class="text-2xl font-bold">IntelliWheels AI Assistant</h2>
                     <p class="text-gray-400">Ask me anything about cars, maintenance, or our listings!</p>
                 </div>
-                <div id="chatbot-log-fullscreen" class="chatbot-log">
-                    <div class="message-container bot-message initial-bot-message">
-                        <div class="avatar">AI</div>
-                        <div class="message-content">
-                            <p>Welcome to the IntelliWheels AI Assistant. How can I help you today?</p>
+                <div class="chatbot-fullscreen-container">
+                    <div id="chatbot-animation-bg"></div>
+                    <div class="chatbot-header">
+                        <div>
+                            <h2 class="text-2xl font-bold">IntelliWheels AI Assistant</h2>
+                            <p class="text-gray-400">One assistant for discovery, pricing, and listing help.</p>
+                        </div>
+                    </div>
+                    <div id="assistant-tips-panel" class="assistant-tips-panel mb-6" aria-live="polite">
+                        <div class="assistant-tips-panel-header">
+                            <div>
+                                <h3 class="text-lg font-semibold">Need ideas?</h3>
+                                <p class="text-sm text-gray-400">Discovery · Pricing · Listings</p>
+                            </div>
+                            <button type="button" id="assistant-tips-dismiss" class="assistant-tips-dismiss" aria-label="Hide suggestions">
+                                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l8 8m0-8l-8 8" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="assistant-tip bg-gray-900 bg-opacity-40 rounded-lg p-4 border border-gray-700">
+                                <p class="text-xs text-blue-300 uppercase tracking-wide mb-1">Find Cars</p>
+                                <p class="text-gray-300 text-sm">Ask for comparisons, specs, or recommendations from the catalog.</p>
+                            </div>
+                            <div class="assistant-tip bg-gray-900 bg-opacity-40 rounded-lg p-4 border border-gray-700">
+                                <p class="text-xs text-green-300 uppercase tracking-wide mb-1">Price Smarter</p>
+                                <p class="text-gray-300 text-sm">Get market-aligned pricing tips before buying or listing.</p>
+                            </div>
+                            <div class="assistant-tip bg-gray-900 bg-opacity-40 rounded-lg p-4 border border-gray-700">
+                                <p class="text-xs text-purple-300 uppercase tracking-wide mb-1">List Faster</p>
+                                <p class="text-gray-300 text-sm">Describe your car and let the assistant draft ready-to-post listings.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="chatbot-log-fullscreen" class="chatbot-log">
+                        <div class="message-container bot-message initial-bot-message" data-message-id="welcome">
+                            <div class="avatar">AI</div>
+                            <div class="message-content">
+                                <p>Welcome to the IntelliWheels AI Assistant. How can I help you today?</p>
+                            </div>
+                            <div class="message-rating hidden">
+                                <span class="text-xs text-gray-400 mr-2">Rate this response:</span>
+                                <button class="rating-btn" data-rating="1" title="Poor">⭐</button>
+                                <button class="rating-btn" data-rating="2" title="Fair">⭐</button>
+                                <button class="rating-btn" data-rating="3" title="Good">⭐</button>
+                                <button class="rating-btn" data-rating="4" title="Very Good">⭐</button>
+                                <button class="rating-btn" data-rating="5" title="Excellent">⭐</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chatbot-input-area" id="chatbot-input-area">
+                        <div class="chatbot-attachment-bar">
+                            <button type="button" id="chatbot-attach-btn" class="chatbot-attach-btn" title="Attach an image">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.44 11.05l-8.486 8.486a5 5 0 11-7.071-7.071l9.193-9.193a3.5 3.5 0 114.95 4.95l-8.838 8.838a2 2 0 11-2.828-2.828l7.424-7.424" /></svg>
+                                <span>Add image</span>
+                            </button>
+                            <input type="file" id="chatbot-attachment-input" accept="image/*" class="sr-only" aria-hidden="true">
+                            <div id="chatbot-attachment-preview" class="chatbot-attachment-preview hidden">
+                                <img id="chatbot-attachment-preview-img" alt="Chatbot attachment preview" class="chatbot-attachment-preview-img">
+                                <div class="chatbot-attachment-meta">
+                                    <p id="chatbot-attachment-name" class="text-xs text-gray-300"></p>
+                                    <button type="button" id="chatbot-attachment-remove-btn" class="chatbot-attachment-remove">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <p id="chatbot-attachment-hint" class="chatbot-attachment-hint text-xs text-gray-400">Drop or paste an image to include it with your next message.</p>
+                        <div class="chatbot-input-row">
+                            <input id="chatbot-input-fullscreen" type="text" placeholder="e.g., compare a BMW 3-Series to a Toyota Camry" class="chatbot-input">
+                            <button id="chatbot-send-btn-fullscreen" type="button" class="chatbot-send-btn">
+                                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.769 59.769 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" /></svg>
+                            </button>
                         </div>
                     </div>
                 </div>
-                <div class="chatbot-input-area">
-                    <input id="chatbot-input-fullscreen" type="text" placeholder="e.g., compare a BMW 3-Series to a Toyota Camry" class="chatbot-input">
-                    <button id="chatbot-send-btn-fullscreen" class="chatbot-send-btn">
-                         <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.769 59.769 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" /></svg>
-                    </button>
+            </div>
+        </main>
+
+        <main id="page-profile" class="page-content hidden">
+            <div class="page-header">
+                <h2 class="text-3xl font-bold text-white">Profile Settings</h2>
+                <p class="text-gray-400">Manage your account information and preferences</p>
+            </div>
+            <div id="profile-container" class="w-full max-w-2xl mx-auto">
+                <div class="profile-loading-container">
+                    <div class="spinner"></div>
+                    <p class="text-gray-400 mt-4">Loading profile...</p>
+                </div>
+            </div>
+        </main>
+
+        <main id="page-analytics" class="page-content hidden">
+            <div class="page-header">
+                <h2 class="text-3xl font-bold text-white">AI Data Analytics</h2>
+                <p class="text-gray-400">Intelligent insights and market analysis powered by AI</p>
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <button id="analytics-filter-all" class="analytics-filter-btn active" data-filter="all">All Data</button>
+                    <button id="analytics-filter-my" class="analytics-filter-btn" data-filter="my">My Listings</button>
+                    <button id="analytics-filter-favorites" class="analytics-filter-btn" data-filter="favorites">My Favorites</button>
+                </div>
+            </div>
+            <div id="analytics-container" class="space-y-6">
+                <div class="loading-container">
+                    <div class="spinner"></div>
+                    <p class="text-gray-400 mt-4">Analyzing data...</p>
                 </div>
             </div>
         </main>
@@ -111,9 +296,39 @@
                         <input name="engine" type="text" placeholder="Engine (e.g., 2.0L Turbo I4)" class="form-input">
                         <input name="fuelEconomy" type="text" placeholder="Fuel Economy (e.g., 7.5 L/100km)" class="form-input">
                     </div>
-                    <input name="image" type="url" placeholder="Main Image URL" class="form-input" required>
+                    <div class="listing-image-upload">
+                        <label class="form-label">Listing Photos</label>
+                        <div id="listing-image-dropzone" class="upload-dropzone" tabindex="0" role="button" aria-label="Upload a listing photo">
+                            <input type="file" id="listing-image-file" accept="image/*" class="sr-only" aria-hidden="true">
+                            <p class="text-sm text-gray-300">Drop, paste, or <span class="upload-link">browse</span> a photo from your device</p>
+                            <p class="text-xs text-gray-500">PNG, JPG, or WEBP up to 10MB</p>
+                        </div>
+                        <div id="listing-image-preview" class="upload-preview hidden">
+                            <img id="listing-image-preview-img" alt="Uploaded listing preview" class="upload-preview-img">
+                            <div>
+                                <p id="listing-image-preview-name" class="text-sm text-gray-300"></p>
+                                <button type="button" id="listing-image-remove-btn" class="upload-remove-btn">Remove photo</button>
+                            </div>
+                        </div>
+                        <p id="listing-image-status" class="upload-status text-sm text-gray-400" aria-live="polite"></p>
+                        <input name="image" id="listing-image-url" type="url" placeholder="Or paste a hosted image URL" class="form-input" required>
+                    </div>
+                    <div class="ai-price-assist">
+                        <button type="button" id="price-estimate-btn" class="ai-action-btn">AI Price Assist</button>
+                        <div id="price-estimate-result" class="ai-result hidden"></div>
+                    </div>
                     <button type="submit" class="w-full form-submit-btn">Add My Car</button>
                 </form>
+            </div>
+            <div class="vision-helper-card">
+                <h3 class="text-2xl font-bold text-white mb-2">Vision Helper</h3>
+                <p class="text-gray-400 text-sm mb-4">Upload a car photo and let Gemini auto-suggest listing details.</p>
+                <input type="file" id="vision-image-input" accept="image/*" class="form-input">
+                <div class="flex flex-wrap gap-3 mt-4">
+                    <button type="button" id="vision-analyze-btn" class="ai-action-btn">Analyze Photo</button>
+                    <button type="button" id="vision-apply-btn" class="ai-action-btn secondary" disabled>Apply To Form</button>
+                </div>
+                <div id="vision-helper-output" class="ai-result hidden mt-4"></div>
             </div>
         </main>
         

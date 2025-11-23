@@ -1,0 +1,27 @@
+{
+  "name": "intelliwheels",
+  "version": "1.0.0",
+  "description": "A modern, professional car catalog application with AI chatbot integration, built with Flask backend and modern JavaScript frontend.",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss -i ./css/tailwind.input.css -o ./css/tailwind.build.css --minify",
+    "watch:css": "tailwindcss -i ./css/tailwind.input.css -o ./css/tailwind.build.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MuhannadMelhem333/IntelliWheels.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MuhannadMelhem333/IntelliWheels/issues"
+  },
+  "homepage": "https://github.com/MuhannadMelhem333/IntelliWheels#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.22",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.13"
+  }
+}
