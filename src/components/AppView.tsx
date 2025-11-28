@@ -1837,21 +1837,13 @@ export function AppView() {
         <div className="mx-auto max-w-7xl px-4 py-6">
           <div className="flex flex-wrap items-center justify-between gap-6">
             <div className="flex items-center gap-4 lg:gap-6">
-              <button
-                type="button"
-                onClick={() => {
-                  setActivePage('listings');
-                  router.push('/');
-                }}
-                className="group -ml-2 inline-flex items-center justify-center rounded-[32px] bg-transparent p-0 transition hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-                aria-label="Back to IntelliWheels home"
-              >
+              <div className="-ml-2 inline-flex items-center justify-center rounded-[32px] bg-transparent p-0">
                 <img
                   src="/intellliwheels_logo_concept_dynamic.png"
                   alt="IntelliWheels logo"
                   className="h-20 w-20 rounded-[28px] object-contain shadow-lg"
                 />
-              </button>
+              </div>
               <div>
               <p className={`text-sm uppercase tracking-wider ${headerMuted}`}>IntelliWheels</p>
               <h1 className="text-3xl font-bold">{copy.tagline}</h1>
