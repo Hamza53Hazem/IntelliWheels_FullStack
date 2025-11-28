@@ -58,9 +58,9 @@ const SERVICE_CONFIG = [
 type ServiceMode = (typeof SERVICE_CONFIG)[number]['key'];
 
 const SERVICE_NAV_MAP: Record<ServiceMode, PageKey[]> = {
-  marketplace: ['listings', 'favorites', 'dealers', 'myListings', 'addListing'],
-  dealer: ['dealers', 'myListings', 'addListing', 'profile', 'analytics'],
-  insights: ['chatbot', 'analytics', 'listings', 'favorites'],
+  marketplace: ['listings', 'favorites', 'dealers', 'myListings', 'addListing', 'profile'],
+  dealer: ['listings', 'dealers', 'myListings', 'addListing', 'profile', 'analytics'],
+  insights: ['chatbot', 'analytics', 'listings', 'favorites', 'profile'],
 };
 
 type ThemeMode = 'light' | 'dark' | 'system';
@@ -1836,20 +1836,20 @@ export function AppView() {
       <header className={`${headerSurfaceClass} border-b ${subtleBorderClass}`}>
         <div className="mx-auto max-w-7xl px-4 py-6">
           <div className="flex flex-wrap items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 lg:gap-6">
               <button
                 type="button"
                 onClick={() => {
                   setActivePage('listings');
                   router.push('/');
                 }}
-                className="group relative inline-flex items-center justify-center rounded-2xl border border-transparent bg-white/10 p-2 transition hover:bg-white/20"
+                className="group -ml-2 inline-flex items-center justify-center rounded-[32px] bg-transparent p-0 transition hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                 aria-label="Back to IntelliWheels home"
               >
                 <img
                   src="/intellliwheels_logo_concept_dynamic.png"
                   alt="IntelliWheels logo"
-                  className="h-16 w-16 rounded-xl object-contain drop-shadow group-hover:scale-105"
+                  className="h-20 w-20 rounded-[28px] object-contain shadow-lg"
                 />
               </button>
               <div>
@@ -1864,40 +1864,6 @@ export function AppView() {
               <div className={`rounded-full px-4 py-1 text-xs font-semibold ${statusPillClass}`}>
                 {copy.statusLabel}: {token ? copy.statusAuthenticated : copy.statusGuest}
               </div>
-              {!user ? (
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setActivePage('profile');
-                      setNavMenuOpen(false);
-                      setSettingsOpen(false);
-                    }}
-                    className="rounded-2xl border border-white/40 px-4 py-2 font-semibold text-white shadow"
-                  >
-                    Sign In
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setActivePage('profile');
-                      setNavMenuOpen(false);
-                      setSettingsOpen(false);
-                    }}
-                    className="rounded-2xl bg-emerald-500 px-4 py-2 font-semibold text-white shadow hover:bg-emerald-400"
-                  >
-                    Sign Up
-                  </button>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => logout()}
-                  className="rounded-2xl border border-white/40 px-4 py-2 font-semibold text-white shadow hover:bg-white/10"
-                >
-                  Sign Out
-                </button>
-              )}
               <div ref={serviceMenuRef} className="relative">
                 <button
                   type="button"
@@ -1984,19 +1950,19 @@ export function AppView() {
                   {copy.settingsButton}
                 </button>
                 {settingsOpen && (
-                  <div className={`absolute ${direction === 'rtl' ? 'left-0' : 'right-0'} z-20 mt-2 w-80 rounded-2xl border ${resolvedTheme === 'dark' ? 'border-slate-700 bg-slate-900 text-slate-100' : 'border-slate-200 bg-white text-slate-900'} shadow-2xl`}>
+                  <div className={`absolute ${direction === 'rtl' ? 'left-0' : 'right-0'} z-20 mt-2 w-80 rounded-3xl border border-slate-200 bg-white text-slate-900 shadow-2xl`}>
                     <div className="space-y-4 p-4 text-left">
                       <div>
-                        <p className="text-sm font-semibold">{copy.settingsTitle}</p>
-                        <p className={`text-xs ${headerSubtleText}`}>{copy.settingsSubtitle}</p>
+                        <p className="text-base font-semibold text-slate-900">{copy.settingsTitle}</p>
+                        <p className="text-sm text-slate-600">{copy.settingsSubtitle}</p>
                       </div>
-                      <div className="space-y-3 text-sm">
+                      <div className="space-y-3 text-sm text-slate-900">
                         <div>
-                          <label className={`text-xs uppercase tracking-wide ${headerMuted}`}>{copy.selectorsLanguage}</label>
+                          <label className="text-xs uppercase tracking-wide text-slate-900">{copy.selectorsLanguage}</label>
                           <select
                             value={language}
                             onChange={(event) => setLanguage(event.target.value as 'en' | 'ar')}
-                            className={`mt-1 w-full ${selectorClass}`}
+                            className="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900"
                           >
                             {LANGUAGE_OPTIONS.map((option) => (
                               <option key={option.value} value={option.value} className="text-slate-900">
@@ -2006,11 +1972,11 @@ export function AppView() {
                           </select>
                         </div>
                         <div>
-                          <label className={`text-xs uppercase tracking-wide ${headerMuted}`}>{copy.selectorsCurrency}</label>
+                          <label className="text-xs uppercase tracking-wide text-slate-900">{copy.selectorsCurrency}</label>
                           <select
                             value={currency}
                             onChange={(event) => setCurrency(event.target.value as CurrencyCode)}
-                            className={`mt-1 w-full ${selectorClass}`}
+                            className="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900"
                           >
                             {CURRENCY_OPTIONS.map((code) => (
                               <option key={code} value={code} className="text-slate-900">
@@ -2020,8 +1986,12 @@ export function AppView() {
                           </select>
                         </div>
                         <div>
-                          <label className={`text-xs uppercase tracking-wide ${headerMuted}`}>{copy.themeLabel}</label>
-                          <select value={theme} onChange={(event) => setTheme(event.target.value as ThemeMode)} className={`mt-1 w-full ${selectorClass}`}>
+                          <label className="text-xs uppercase tracking-wide text-slate-900">{copy.themeLabel}</label>
+                          <select
+                            value={theme}
+                            onChange={(event) => setTheme(event.target.value as ThemeMode)}
+                            className="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900"
+                          >
                             {THEME_OPTIONS.map((option) => (
                               <option key={option.value} value={option.value} className="text-slate-900">
                                 {copy[option.labelKey]}
@@ -2030,17 +2000,52 @@ export function AppView() {
                           </select>
                         </div>
                       </div>
-                      <div className={`border-t ${subtleBorderClass} pt-3`}>
+                      <div className="space-y-3 border-t border-slate-200 pt-3 text-sm">
                         <button
                           type="button"
                           onClick={() => {
                             setSettingsOpen(false);
                             setActivePage('profile');
                           }}
-                          className={`w-full rounded-xl border ${subtleBorderClass} px-4 py-2 text-sm font-semibold ${resolvedTheme === 'dark' ? 'text-slate-100' : 'text-slate-900'}`}
+                          className="w-full rounded-2xl border border-slate-200 px-4 py-2 font-semibold text-slate-900"
                         >
                           {user ? copy.settingsProfileCta : copy.settingsProfileGuest}
                         </button>
+                        {!user ? (
+                          <div className="space-y-2">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSettingsOpen(false);
+                                setActivePage('profile');
+                              }}
+                              className="w-full rounded-2xl bg-slate-900 px-4 py-2 font-semibold text-white"
+                            >
+                              Sign In
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSettingsOpen(false);
+                                setActivePage('profile');
+                              }}
+                              className="w-full rounded-2xl bg-emerald-500 px-4 py-2 font-semibold text-white"
+                            >
+                              Sign Up
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSettingsOpen(false);
+                              logout();
+                            }}
+                            className="w-full rounded-2xl border border-slate-200 px-4 py-2 font-semibold text-slate-900"
+                          >
+                            Sign Out
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
