@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: intelliwheels-backend
+    rootDir: backend
+    env: python
+    plan: starter
+    runtime: python
+    pythonVersion: 3.11.9
+    buildCommand: bash render-build.sh
+    startCommand: python -m gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FRONTEND_ORIGIN
+        value: https://intelliwheels.vercel.app
