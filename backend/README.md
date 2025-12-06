@@ -214,6 +214,24 @@ The main `cars` table includes:
 - Statistics (statistics as JSON)
 - Source tracking (source_sheets)
 
+## Deployment
+
+- Always bind the server to the platform-provided `PORT` environment variable. The bundled `app.py` now reads `PORT` automatically, so hosting providers such as Render can probe the correct port.
+- Use a production-grade WSGI server. Example start command: `gunicorn app:app --bind 0.0.0.0:$PORT`. Avoid running `python app.py` directly in production logs.
+- Sample Render snippet:
+    ```yaml
+    services:
+        - type: web
+            name: intelliwheels-backend
+            rootDir: backend
+            runtime: python
+            pythonVersion: 3.11.9
+            buildCommand: ./render-build.sh  # install deps + train models + ingest data
+            startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    ```
+- Expose the frontend URL through `FRONTEND_ORIGIN` so `/` links users to the deployed Next.js app.
+- Remember to set secrets such as `GEMINI_API_KEY` and any database paths as Render environment variables.
+
 ## Troubleshooting
 
 ### Backend not starting

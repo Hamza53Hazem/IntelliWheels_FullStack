@@ -3464,11 +3464,17 @@ def swagger():
 
 if __name__ == '__main__':
     init_db()
+    port = int(os.getenv('PORT') or os.getenv('FLASK_RUN_PORT') or 5000)
+    host = os.getenv('FLASK_RUN_HOST', '0.0.0.0')
+    public_host = 'localhost' if host in {'0.0.0.0', '::'} else host
+    base_url = f"http://{public_host}:{port}"
+
     print("🚀 IntelliWheels API Server Starting...")
     print("📊 Database initialized")
-    print("🌐 API available at http://localhost:5000")
+    print(f"🌐 API available at {base_url}")
     if SWAGGER_AVAILABLE:
-        print("📚 Swagger UI available at http://localhost:5000/api-docs")
+        print(f"📚 Swagger UI available at {base_url}/api-docs")
+
     debug_flag = os.getenv('FLASK_DEBUG', '0').lower() in {'1', 'true', 'yes'}
     reloader_env = os.getenv('INTELLIWHEELS_USE_RELOADER')
     if reloader_env is None:
@@ -3477,5 +3483,6 @@ if __name__ == '__main__':
         use_reloader = reloader_env.lower() in {'1', 'true', 'yes'}
     if not use_reloader:
         print("⚙️ Flask reloader disabled. Set INTELLIWHEELS_USE_RELOADER=1 to re-enable.")
-    app.run(debug=debug_flag, use_reloader=use_reloader, host='0.0.0.0', port=5000)
+
+    app.run(debug=debug_flag, use_reloader=use_reloader, host=host, port=port)
 
