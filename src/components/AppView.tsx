@@ -482,8 +482,13 @@ export function AppView() {
 
   useEffect(() => {
     const allowedPages = SERVICE_NAV_MAP[serviceMode] ?? NAV_CONFIG.map((item) => item.key);
-    if (!allowedPages.includes(activePage)) {
-      setActivePage(allowedPages[0] ?? 'listings');
+    // Don't force redirect if trying to access pages that might be conditionally allowed or are valid
+    if (!allowedPages.includes(activePage) && activePage !== 'addListing') {
+      // Check if 'add_listing' is valid for this mode generally, or just allow it if user is logged in
+      // For now, let's trust the user selection unless it's completely invalid
+      if (activePage !== 'profile') {
+        setActivePage(allowedPages[0] ?? 'listings');
+      }
     }
   }, [serviceMode, activePage]);
 
@@ -580,8 +585,9 @@ export function AppView() {
         }
       } catch (err: any) {
         console.error('Failed to load cars', err);
-        if (typeof err?.message === 'string' && err.message.toLowerCase().includes('auth')) {
-          requireAuth();
+        // Only redirect if explicitly rejected and not already on a vital public page
+        if (typeof err?.message === 'string' && err.message.toLowerCase().includes('auth') && activePage !== 'listings' && activePage !== 'dealers') {
+          // Don't auto-redirect, just let the user see the restricted content message or handle it locally
         }
       }
     }
@@ -1841,6 +1847,7 @@ export function AppView() {
         return renderProfilePanel();
       case 'chatbot':
         return renderChatbot();
+
       case 'analytics':
         return renderAnalytics();
       default:
@@ -1863,9 +1870,11 @@ export function AppView() {
               className="group flex cursor-pointer items-center gap-3"
               onClick={() => setActivePage('listings')}
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 shadow-lg transition-transform group-hover:scale-105">
-                <span className="text-xl font-bold text-white">IW</span>
-              </div>
+              <img
+                src="/intellliwheels_logo_concept_dynamic.png"
+                alt="IntelliWheels"
+                className="h-12 w-auto object-contain transition-transform group-hover:scale-105"
+              />
               <div className="hidden flex-col md:flex">
                 <span className={`text-xl font-bold tracking-tight ${resolvedTheme === 'dark' ? 'text-white' : 'text-slate-900'}`}>IntelliWheels</span>
                 <span className={`text-[10px] font-bold uppercase tracking-wider ${headerMuted}`}>Automotive Intelligence</span>
@@ -1877,6 +1886,7 @@ export function AppView() {
               {[
                 { key: 'listings', label: copy.navCatalog },
                 { key: 'dealers', label: copy.navDealers },
+                { key: 'addListing', label: copy.navAddListing },
                 { key: 'chatbot', label: copy.navChatbot },
                 { key: 'analytics', label: copy.navAnalytics },
               ].map((item) => (
