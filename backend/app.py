@@ -764,12 +764,28 @@ def get_user_from_token(token):
     # Check database sessions
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute('''
-        SELECT u.id, u.username, u.email, u.role, us.token
-        FROM users u
-        INNER JOIN user_sessions us ON u.id = us.user_id
-        WHERE us.token = ? AND (us.expires_at IS NULL OR us.expires_at > datetime('now'))
-    ''', (token,))
+    try:
+        cursor.execute('''
+            SELECT u.id, u.username, u.email, u.role, us.token
+            FROM users u
+            INNER JOIN user_sessions us ON u.id = us.user_id
+            WHERE us.token = ? AND (us.expires_at IS NULL OR us.expires_at > datetime('now'))
+        ''', (token,))
+    except sqlite3.OperationalError as e:
+        # Fallback if 'role' column doesn't exist yet
+        if 'no such column' in str(e).lower():
+            print("⚠️ Role column missing in get_user_from_token, falling back")
+            cursor.execute('''
+                SELECT u.id, u.username, u.email, 'user' as role, us.token
+                FROM users u
+                INNER JOIN user_sessions us ON u.id = us.user_id
+                WHERE us.token = ? AND (us.expires_at IS NULL OR us.expires_at > datetime('now'))
+            ''', (token,))
+        else:
+            print(f"❌ Database error in get_user_from_token: {e}")
+            conn.close()
+            return None
+
     row = cursor.fetchone()
     conn.close()
     
@@ -783,6 +799,7 @@ def get_user_from_token(token):
         AUTH_SESSIONS[token] = user_info
         return user_info
     
+    print(f"⚠️ Token not found or expired: {token[:10]}...")
     return None
 
 def require_auth(f):
