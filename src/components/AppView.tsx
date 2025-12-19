@@ -226,6 +226,10 @@ const TRANSLATIONS = {
     dealerMetaTopMakes: 'أبرز العلامات',
     dealerInventoryTitle: 'السيارات المتاحة',
     dealerContactCta: 'تواصل مع الوكيل',
+    settingsLabel: 'الإعدادات',
+    settingsTheme: 'المظهر',
+    settingsLanguage: 'اللغة',
+    settingsCurrency: 'العملة',
     footerContact: 'تواصل معنا',
     footerSupport: 'الدعم',
     footerSocial: 'وسائل التواصل',
@@ -1998,43 +2002,44 @@ export function AppView() {
                         </div>
                       </div>
                     </div>
-                )}
                   </div>
+                )}
+              </div>
 
               {/* Mobile Menu Toggle */}
-                <button
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-600 md:hidden dark:border-slate-700 dark:text-slate-300"
-                  onClick={() => setNavMenuOpen(!navMenuOpen)}
-                >
-                  ☰
-                </button>
-              </div>
+              <button
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-600 md:hidden dark:border-slate-700 dark:text-slate-300"
+                onClick={() => setNavMenuOpen(!navMenuOpen)}
+              >
+                ☰
+              </button>
             </div>
           </div>
+        </div>
 
-          {/* Mobile Nav Drawer */}
-          {navMenuOpen && (
-            <div className="border-t border-slate-100 bg-white/95 px-4 py-4 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/95 md:hidden">
-              <div className="space-y-1">
-                {[
-                  { key: 'listings', label: copy.navCatalog },
-                  { key: 'dealers', label: copy.navDealers },
-                  { key: 'chatbot', label: copy.navChatbot },
-                  { key: 'analytics', label: copy.navAnalytics },
-                  { key: 'profile', label: copy.navProfile },
-                ].map((item) => (
-                  <button
-                    key={item.key}
-                    onClick={() => { setActivePage(item.key as PageKey); setNavMenuOpen(false); }}
-                    className={`block w-full rounded-xl px-4 py-3 text-left font-semibold ${activePage === item.key ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400' : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300'
-                      }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
+        {/* Mobile Nav Drawer */}
+        {navMenuOpen && (
+          <div className="border-t border-slate-100 bg-white/95 px-4 py-4 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/95 md:hidden">
+            <div className="space-y-1">
+              {[
+                { key: 'listings', label: copy.navCatalog },
+                { key: 'dealers', label: copy.navDealers },
+                { key: 'chatbot', label: copy.navChatbot },
+                { key: 'analytics', label: copy.navAnalytics },
+                { key: 'profile', label: copy.navProfile },
+              ].map((item) => (
+                <button
+                  key={item.key}
+                  onClick={() => { setActivePage(item.key as PageKey); setNavMenuOpen(false); }}
+                  className={`block w-full rounded-xl px-4 py-3 text-left font-semibold ${activePage === item.key ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400' : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300'
+                    }`}
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
-          )}
+          </div>
+        )}
       </header>
       <div className="mx-auto max-w-7xl space-y-8 px-4 py-10">
         <main className={`rounded-3xl ${mainSurfaceClass} p-6 shadow-lg`}>
