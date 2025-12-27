@@ -1,0 +1,8 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/cars/[id]/page": "/cars/[id]",
+  "/dealers/[id]/page": "/dealers/[id]",
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/"
+}
