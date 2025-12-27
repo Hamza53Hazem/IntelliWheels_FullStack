@@ -1,11 +1,11 @@
 services:
   - type: web
     name: intelliwheels-backend
-    rootDir: backend
+    rootDir: IntelliWheels_Enhanced/backend
     env: python
     plan: starter
     buildCommand: bash render-build.sh
-    startCommand: python -m gunicorn app:app --bind 0.0.0.0:$PORT
+    startCommand: gunicorn run:app --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9

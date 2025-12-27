@@ -1368,6 +1368,8 @@ export function AppView() {
         <div className="mt-6 space-y-3">
           <label className="text-xs uppercase text-slate-500">Assistant Mode</label>
           <select
+            name="assistant-mode"
+            id="assistant-mode"
             value={assistantMode}
             onChange={(event) => setAssistantMode(event.target.value as 'general' | 'listing')}
             className={`w-full ${inputFieldClass}`}
@@ -1406,8 +1408,8 @@ export function AppView() {
               <span>Attached image</span>
               <button onClick={() => setChatAttachment(null)} className="text-xs text-rose-500">Remove</button>
             </div>
-          )}
-          <textarea
+          )}name="chat-input"
+            id="chat-input"
             value={chatInput}
             onChange={(event) => setChatInput(event.target.value)}
             placeholder="Ask about pricing, specs, or request a listing draft..."
@@ -1415,6 +1417,10 @@ export function AppView() {
           />
           <div className="flex flex-wrap items-center gap-3">
             <label className="cursor-pointer rounded-2xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-900">
+              Attach Image
+              <input
+                name="chat-attachment"
+                id="chat-attachment"lassName="cursor-pointer rounded-2xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-900">
               Attach Image
               <input
                 type="file"
@@ -1497,18 +1503,20 @@ export function AppView() {
             <div className="grid gap-4 lg:grid-cols-[2fr,1fr]">
               <div className="rounded-3xl border border-slate-100 bg-white p-4 shadow-sm">
                 <div className="grid gap-4 md:grid-cols-3">
-                  <select value={filters.make} onChange={(event) => setFilters((prev) => ({ ...prev, make: event.target.value }))} className={inputFieldClass}>
+                  <select value={filters.make} name="filter-make" id="filter-make" onChange={(event) => setFilters((prev) => ({ ...prev, make: event.target.value }))} className={inputFieldClass}>
                     {makes.map((make) => (
                       <option key={make} value={make}>{camelToTitle(make)}</option>
                     ))}
                   </select>
                   <input
+                    name="filter-search"
+                    id="filter-search"
                     value={filters.search}
                     onChange={(event) => setFilters((prev) => ({ ...prev, search: event.target.value }))}
                     placeholder="Search make, model, year"
                     className={inputFieldClass}
                   />
-                  <select value={filters.sort} onChange={(event) => setFilters((prev) => ({ ...prev, sort: event.target.value as CarFilters['sort'] }))} className={inputFieldClass}>
+                  <select value={filters.sort} name="filter-sort" id="filter-sort" onChange={(event) => setFilters((prev) => ({ ...prev, sort: event.target.value as CarFilters['sort'] }))} className={inputFieldClass}>
                     <option value="default">Recommended</option>
                     <option value="price-asc">Price: Low → High</option>
                     <option value="price-desc">Price: High → Low</option>
@@ -1521,6 +1529,8 @@ export function AppView() {
                 <p className="text-sm font-semibold text-slate-900">AI Semantic Search</p>
                 <div className="mt-3 flex gap-3">
                   <input
+                    name="semantic-query"
+                    id="semantic-query"
                     value={semanticQuery}
                     onChange={(event) => setSemanticQuery(event.target.value)}
                     placeholder="e.g. Luxury hybrid SUV under 150k"
@@ -1683,8 +1693,8 @@ export function AppView() {
         return (
           <div className="grid gap-6 lg:grid-cols-[1.2fr,0.8fr]">
             <form className="space-y-4 rounded-3xl border border-slate-100 bg-white p-6 shadow-sm" onSubmit={handleListingSubmit}>
-              <div className="grid gap-4 md:grid-cols-2">
-                <select
+              <divname="listing-make"
+                  id="listing-make"
                   value={listingForm.make}
                   onChange={(event) => handleMakeSelect(event.target.value)}
                   className={inputFieldClass}
@@ -1696,6 +1706,8 @@ export function AppView() {
                   ))}
                 </select>
                 <select
+                  name="listing-model"
+                  id="listing-model"
                   value={listingForm.model}
                   onChange={(event) => handleModelSelect(event.target.value)}
                   className={inputFieldClass}
@@ -1707,17 +1719,19 @@ export function AppView() {
                     <option key={model} value={model}>{model}</option>
                   ))}
                 </select>
-                <input value={listingForm.year} onChange={(event) => handleListingInput('year', event.target.value)} placeholder="Year" className={inputFieldClass} required />
-                <input value={listingForm.price} onChange={(event) => handleListingInput('price', event.target.value)} placeholder="Price" className={inputFieldClass} required />
-                <select value={listingForm.currency} onChange={(event) => handleListingInput('currency', event.target.value)} className={inputFieldClass}>
+                <input name="listing-year" id="listing-year" value={listingForm.year} onChange={(event) => handleListingInput('year', event.target.value)} placeholder="Year" className={inputFieldClass} required />
+                <input name="listing-price" id="listing-price" value={listingForm.price} onChange={(event) => handleListingInput('price', event.target.value)} placeholder="Price" className={inputFieldClass} required />
+                <select name="listing-currency" id="listing-currency" value={listingForm.currency} onChange={(event) => handleListingInput('currency', event.target.value)} className={inputFieldClass}>
                   {CURRENCY_OPTIONS.map((currency) => (
                     <option key={currency} value={currency}>{currency}</option>
                   ))}
                 </select>
-                <input value={listingForm.bodyStyle} onChange={(event) => handleListingInput('bodyStyle', event.target.value)} placeholder="Body style" className={inputFieldClass} />
-                <input value={listingForm.horsepower} onChange={(event) => handleListingInput('horsepower', event.target.value)} placeholder="Horsepower" className={inputFieldClass} />
+                <input name="listing-bodystyle" id="listing-bodystyle" value={listingForm.bodyStyle} onChange={(event) => handleListingInput('bodyStyle', event.target.value)} placeholder="Body style" className={inputFieldClass} />
+                <input name="listing-horsepower" id="listing-horsepower" value={listingForm.horsepower} onChange={(event) => handleListingInput('horsepower', event.target.value)} placeholder="Horsepower" className={inputFieldClass} />
                 {availableEngineOptions.length > 0 ? (
                   <select
+                    name="listing-engine"
+                    id="listing-engine"
                     value={listingForm.engine}
                     onChange={(event) => handleListingInput('engine', event.target.value)}
                     className={inputFieldClass}
@@ -1729,10 +1743,12 @@ export function AppView() {
                     ))}
                   </select>
                 ) : (
-                  <input value={listingForm.engine} onChange={(event) => handleListingInput('engine', event.target.value)} placeholder={copy.engineSelectLabel} className={inputFieldClass} />
+                  <input name="listing-engine" id="listing-engine" value={listingForm.engine} onChange={(event) => handleListingInput('engine', event.target.value)} placeholder={copy.engineSelectLabel} className={inputFieldClass} />
                 )}
-                <input value={listingForm.fuelEconomy} onChange={(event) => handleListingInput('fuelEconomy', event.target.value)} placeholder="Fuel economy" className={inputFieldClass} />
+                <input name="listing-fueleconomy" id="listing-fueleconomy" value={listingForm.fuelEconomy} onChange={(event) => handleListingInput('fuelEconomy', event.target.value)} placeholder="Fuel economy" className={inputFieldClass} />
                 <input
+                  name="listing-odometer"
+                  id="listing-odometer"
                   value={listingForm.odometer}
                   onChange={(event) => handleListingInput('odometer', event.target.value)}
                   placeholder={copy.odometerLabel}
@@ -1740,7 +1756,9 @@ export function AppView() {
                   type="number"
                   min="0"
                 />
-                <input value={listingForm.image} onChange={(event) => handleListingInput('image', event.target.value)} placeholder="Image URL" className={inputFieldClass} />
+                <input name="listing-image" id="listing-image" value={listingForm.image} onChange={(event) => handleListingInput('image', event.target.value)} placeholder="Image URL" className={inputFieldClass} />
+              </div>
+              <textarea name="listing-description" id="listing-description"value={listingForm.image} onChange={(event) => handleListingInput('image', event.target.value)} placeholder="Image URL" className={inputFieldClass} />
               </div>
               <textarea value={listingForm.description} onChange={(event) => handleListingInput('description', event.target.value)} placeholder="Description" className={`h-32 w-full ${inputFieldClass}`}
               />
@@ -1774,6 +1792,8 @@ export function AppView() {
                     <input
                       type="file"
                       accept="image/*"
+                    name="gallery-url"
+                    id="gallery-url"
                       multiple
                       className="hidden"
                       onChange={(event) => handleGalleryUpload(event.target.files)}
@@ -1797,6 +1817,8 @@ export function AppView() {
                   )}
                   {listingForm.galleryImages.map((url, index) => (
                     <div key={`${url}-${index}`} className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white">
+                    name="video-url"
+                    id="video-url"
                       <img src={url} alt={`Gallery ${index + 1}`} className="h-32 w-full object-cover" />
                       <button type="button" className="absolute right-2 top-2 rounded-full bg-white/90 px-2 py-1 text-xs font-semibold text-rose-500" onClick={() => handleRemoveGalleryImage(index)}>
                         {copy.galleryRemove}
@@ -1873,12 +1895,8 @@ export function AppView() {
               <img
                 src="/intellliwheels_logo_concept_dynamic.png"
                 alt="IntelliWheels"
-                className="h-12 w-auto object-contain transition-transform group-hover:scale-105"
+                className="h-16 w-auto object-contain transition-transform group-hover:scale-105"
               />
-              <div className="hidden flex-col md:flex">
-                <span className={`text-xl font-bold tracking-tight ${resolvedTheme === 'dark' ? 'text-white' : 'text-slate-900'}`}>IntelliWheels</span>
-                <span className={`text-[10px] font-bold uppercase tracking-wider ${headerMuted}`}>Automotive Intelligence</span>
-              </div>
             </div>
 
             {/* Desktop Nav */}

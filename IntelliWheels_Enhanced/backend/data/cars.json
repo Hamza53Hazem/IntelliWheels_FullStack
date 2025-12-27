@@ -1,0 +1,124 @@
+[
+    {
+        "id": "bmw-3-series-2021",
+        "make": "BMW",
+        "model": "3-Series",
+        "year": 2021,
+        "price": 240000,
+        "currency": "AED",
+        "image": "https://www.drivearabia.com/carprices/media/catalog/5c86e39f2253cBMW_3_Series_2019_front.jpg",
+        "imageUrls": [
+            "https://www.drivearabia.com/carprices/media/catalog/5c86e39f2253cBMW_3_Series_2019_front.jpg",
+            "https://www.bmw-me.com/content/dam/bmw/common/all-models/3-series/sedan/2022/highlights/bmw-3-series-sedan-sp-desktop.jpg/jcr:content/renditions/cq5dam.resized.img.1680.large.time1651569427771.jpg",
+            "https://www.bmw-me.com/content/dam/bmw/common/all-models/3-series/sedan/2022/highlights/bmw-3-series-sedan-gallery-desktop-02.jpg/jcr:content/renditions/cq5dam.resized.img.1680.large.time1651569430107.jpg"
+        ],
+        "rating": 4.8,
+        "reviews": 125,
+        "specs": {
+            "bodyStyle": "Sedan",
+            "horsepower": 255,
+            "engine": "2.0L Turbo I4",
+            "fuelEconomy": "7.5 L/100km"
+        }
+    },
+    {
+        "id": "ford-f-150-2021",
+        "make": "Ford",
+        "model": "F-150",
+        "year": 2021,
+        "price": 190000,
+        "currency": "SAR",
+        "image": "https://www.drivearabia.com/carprices/media/catalog/5b078426002f2ford-f150-raptor-2018-1.jpg",
+        "imageUrls": [
+            "https://www.drivearabia.com/carprices/media/catalog/5b078426002f2ford-f150-raptor-2018-1.jpg"
+        ],
+        "rating": 4.6,
+        "reviews": 210,
+        "specs": {
+            "bodyStyle": "Truck",
+            "horsepower": 450,
+            "engine": "3.5L Twin-Turbo V6",
+            "fuelEconomy": "13.5 L/100km"
+        }
+    },
+    {
+        "id": "toyota-camry-2012",
+        "make": "Toyota",
+        "model": "Camry",
+        "year": 2012,
+        "price": 65000,
+        "currency": "AED",
+        "image": "https://www.drivearabia.com/carprices/media/catalog/4f008d381a83f2.24679562/toyotacamry-2012-1.jpg",
+        "imageUrls": [
+            "https://www.drivearabia.com/carprices/media/catalog/4f008d381a83f2.24679562/toyotacamry-2012-1.jpg"
+        ],
+        "rating": 4.9,
+        "reviews": 350,
+        "specs": {
+            "bodyStyle": "Sedan",
+            "horsepower": 181,
+            "engine": "2.5L I4",
+            "fuelEconomy": "8.5 L/100km"
+        }
+    },
+    {
+        "id": "toyota-prado-2015",
+        "make": "Toyota",
+        "model": "Prado",
+        "year": 2015,
+        "price": 140000,
+        "currency": "SAR",
+        "image": "https://www.drivearabia.com/carprices/media/catalog/52c1f0243a4884.97300101/toyota-prado-swb-2014-1.jpg",
+        "imageUrls": [
+            "https://www.drivearabia.com/carprices/media/catalog/52c1f0243a4884.97300101/toyota-prado-swb-2014-1.jpg"
+        ],
+        "rating": 4.7,
+        "reviews": 188,
+        "specs": {
+            "bodyStyle": "SUV",
+            "horsepower": 271,
+            "engine": "4.0L V6",
+            "fuelEconomy": "12.5 L/100km"
+        }
+    },
+    {
+        "id": "porsche-911-2023",
+        "make": "Porsche",
+        "model": "911 Carrera",
+        "year": 2023,
+        "price": 450000,
+        "currency": "AED",
+        "image": "https://www.drivearabia.com/carprices/media/catalog/5ca18683b544d2020_porsche_911_front.jpg",
+        "imageUrls": [
+            "https://www.drivearabia.com/carprices/media/catalog/5ca18683b544d2020_porsche_911_front.jpg"
+        ],
+        "rating": 5.0,
+        "reviews": 95,
+        "specs": {
+            "bodyStyle": "Coupe",
+            "horsepower": 379,
+            "engine": "3.0L Twin-Turbo F6",
+            "fuelEconomy": "10.5 L/100km"
+        }
+    },
+    {
+        "id": "nissan-patrol-2022",
+        "make": "Nissan",
+        "model": "Patrol",
+        "year": 2022,
+        "price": 210000,
+        "currency": "AED",
+        "image": "https://www.drivearabia.com/carprices/media/catalog/5d8a0b064c5152020_nissan_patrol_front.jpg",
+        "imageUrls": [
+            "https://www.drivearabia.com/carprices/media/catalog/5d8a0b064c5152020_nissan_patrol_front.jpg"
+        ],
+        "rating": 4.8,
+        "reviews": 420,
+        "specs": {
+            "bodyStyle": "SUV",
+            "horsepower": 400,
+            "engine": "5.6L V8",
+            "fuelEconomy": "14.5 L/100km"
+        }
+    }
+]

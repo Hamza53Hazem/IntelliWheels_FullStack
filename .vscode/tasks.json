@@ -11,7 +11,18 @@
 				".",
 				"dev"
 			],
-			"isBackground": false
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run Backend",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"IntelliWheels_Enhanced/backend/run.py"
+			],
+			"isBackground": true,
+			"problemMatcher": []
 		}
 	]
 }
