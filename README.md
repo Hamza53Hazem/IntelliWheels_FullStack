@@ -4,13 +4,13 @@ This repository contains the full stack application for IntelliWheels.
 
 ## Structure
 
-- **frontend/**: The Next.js React application.
+- **/**: The Next.js React application (Root).
 - **backend/**: The Flask Python API.
 
 ## Deployment
 
 ### Frontend (Vercel)
-- **Root Directory**: `frontend`
+- **Root Directory**: Leave empty (default)
 - **Build Command**: `npm run build`
 - **Install Command**: `npm install`
 
@@ -23,7 +23,6 @@ This repository contains the full stack application for IntelliWheels.
 
 ### Frontend
 ```bash
-cd frontend
 npm install
 npm run dev
 ```
