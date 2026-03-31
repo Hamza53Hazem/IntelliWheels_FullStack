@@ -21,6 +21,6 @@ services:
       - key: FLASK_ENV
         value: production
       - key: FRONTEND_ORIGIN
-        value: https://intelli-wheels.vercel.app
+        value: https://www.intelliwheels.co,https://intelliwheels.co,https://intelli-wheels.vercel.app
       - key: BACKEND_URL
         value: https://intelliwheels.onrender.com
