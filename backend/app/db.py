@@ -154,14 +154,36 @@ def get_db():
     if 'db' not in g:
         if is_postgres() and HAS_POSTGRES:
             database_url = os.environ.get('DATABASE_URL')
-            # Render uses postgres:// but psycopg2 needs postgresql://
+            # Normalize connection scheme to postgresql://
             if database_url.startswith('postgres://'):
                 database_url = database_url.replace('postgres://', 'postgresql://', 1)
-            conn = psycopg2.connect(database_url)
+            elif database_url.startswith('cockroachdb://'):
+                database_url = database_url.replace('cockroachdb://', 'postgresql://', 1)
+            # Ensure SSL for cloud databases (CockroachDB, Neon, Supabase, Render)
+            if 'sslmode' not in database_url and any(
+                host in database_url for host in [
+                    'cockroachlabs.cloud', 'neon.tech', 'render.com', 'supabase.co'
+                ]
+            ):
+                separator = '&' if '?' in database_url else '?'
+                database_url += f'{separator}sslmode=require'
+            # Retry connection for serverless cold starts (CockroachDB/Neon auto-suspend when idle)
+            max_retries = 3
+            for attempt in range(max_retries):
+                try:
+                    conn = psycopg2.connect(database_url, connect_timeout=10)
+                    break
+                except Exception as e:
+                    if attempt < max_retries - 1:
+                        import time
+                        print(f"[DB] Connection attempt {attempt + 1} failed, retrying: {e}")
+                        time.sleep(2 ** attempt)
+                    else:
+                        raise
             # Set autocommit to False (default) but ensure we handle transactions properly
             conn.autocommit = False
             g.db = PostgresConnectionWrapper(conn)
-            print("[DB] Connected to PostgreSQL")
+            print("[DB] Connected to PostgreSQL/CockroachDB")
         else:
             db_path = current_app.config['DATABASE']
             g.db = sqlite3.connect(db_path)
