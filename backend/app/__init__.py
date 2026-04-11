@@ -109,5 +109,8 @@ def create_app(test_config=None):
 
     return app
 
-# Expose app instance for 'gunicorn app:app'
-app = create_app()
+# Expose app instance for 'gunicorn app:app' or 'gunicorn run:app'
+def get_app():
+    return create_app()
+
+app = get_app()

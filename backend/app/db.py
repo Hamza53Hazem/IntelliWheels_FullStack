@@ -178,12 +178,12 @@ def _get_pool():
         database_url = _get_database_url()
         try:
             _connection_pool = psycopg2.pool.ThreadedConnectionPool(
-                minconn=2,
+                minconn=1,
                 maxconn=10,
                 dsn=database_url,
                 connect_timeout=10,
             )
-            print("[DB] Connection pool created (2-10 connections)")
+            print("[DB] Connection pool created (1-10 connections)")
         except Exception as e:
             print(f"[DB] Failed to create connection pool: {e}")
             _connection_pool = None
