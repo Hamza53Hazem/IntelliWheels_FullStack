@@ -6,7 +6,6 @@ requests==2.31.0
 flask-swagger-ui==5.21.0
 joblib==1.4.2
 scikit-learn==1.5.2
-sentence-transformers==2.7.0
 numpy==1.26.4
 gunicorn==21.2.0
 python-dotenv==1.0.0
