@@ -767,11 +767,28 @@ interface VisionSuggestion extends VisionAttributes {
 export function AppView() {
   const { user, token, loading: authLoading, sessionValidated, login, signup, loginWithGoogle, requestPasswordReset, resetUserPassword, logout, updateMyProfile, refreshProfile, error: authError, clearError, currency, setCurrency, formatPrice, convertCurrency } = useAuth();
   const [mounted, setMounted] = useState(false);
-  const [activePage, setActivePage] = useState<PageKey>('home');
+  const [activePage, setActivePageRaw] = useState<PageKey>(() => {
+    if (typeof window !== 'undefined') {
+      const stored = sessionStorage.getItem('intelliwheels-activePage');
+      if (stored) return stored as PageKey;
+    }
+    return 'home';
+  });
+  // Wrap setActivePage to persist to sessionStorage
+  const setActivePage = useCallback((page: PageKey | ((prev: PageKey) => PageKey)) => {
+    setActivePageRaw((prev) => {
+      const next = typeof page === 'function' ? page(prev) : page;
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('intelliwheels-activePage', next);
+      }
+      return next;
+    });
+  }, []);
   const [serviceMode, setServiceMode] = useState<ServiceMode>('marketplace');
   const [theme, setTheme] = useState<ThemeMode>('light');
   const [filters, setFilters] = useState<CarFilters>(DEFAULT_FILTERS);
   const [cars, setCars] = useState<Car[]>([]);
+  const [carsRefreshKey, setCarsRefreshKey] = useState(0);
   const [makes, setMakes] = useState<string[]>([]);
   const [dealers, setDealers] = useState<DealerSummary[]>([]);
   const [dealersLoading, setDealersLoading] = useState(false);
@@ -1251,7 +1268,7 @@ export function AppView() {
     }
     loadCars();
     return () => controller.abort();
-  }, [filters.make, filters.category, filters.sort, token]);
+  }, [filters.make, filters.category, filters.sort, token, carsRefreshKey]);
 
   useEffect(() => {
     async function loadMakes() {
@@ -1887,6 +1904,7 @@ export function AppView() {
         setVisionSuggestion(null);
         const refresh = await fetchMyListings(token);
         if (refresh.success) setMyListings(refresh.cars || []);
+        setCarsRefreshKey((k) => k + 1);
       } else {
         showToast(response.error || 'Could not create listing', 'error');
       }
@@ -1902,6 +1920,7 @@ export function AppView() {
     try {
       await deleteListing(carId, token);
       setMyListings((prev) => prev.filter((car) => car.id !== carId));
+      setCarsRefreshKey((k) => k + 1);
       showToast('🗑️ Listing removed', 'info');
     } catch (err: any) {
       showToast(err.message || 'Unable to delete listing', 'error');
@@ -2057,6 +2076,7 @@ export function AppView() {
         setEditingListing(null);
         const refresh = await fetchMyListings(token);
         if (refresh.success) setMyListings(refresh.cars || []);
+        setCarsRefreshKey((k) => k + 1);
       } else {
         showToast(response.error || 'Could not update listing', 'error');
       }
@@ -2174,7 +2194,7 @@ export function AppView() {
       role: 'user',
       text: message || '[Attachment] Please analyze the uploaded image.',
       timestamp,
-      attachmentUrl: chatAttachment?.preview,
+      attachmentUrl: chatAttachment?.base64 || undefined,
     };
     const updatedMessages = [...chatMessages, userMessage].slice(-CHAT_HISTORY_LIMIT);
     persistChatSession(sessionId, updatedMessages);
@@ -2900,6 +2920,11 @@ export function AppView() {
                           : 'bg-slate-100 text-slate-800'
                       }`}
                     >
+                      {msg.attachmentUrl && (
+                        <div className="mb-2 overflow-hidden rounded-lg">
+                          <img src={msg.attachmentUrl} alt="Attached" className="max-h-48 max-w-full rounded-lg object-cover" />
+                        </div>
+                      )}
                       <p className="whitespace-pre-line text-sm leading-relaxed">{msg.text}</p>
                     </div>
                     {msg.listingData && (

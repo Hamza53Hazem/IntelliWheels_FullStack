@@ -261,12 +261,13 @@ export async function loginUser(username: string, password: string) {
   });
 }
 
-export async function verifySession(token: string | null) {
+export async function verifySession(token: string | null, signal?: AbortSignal) {
   if (!token) {
     return { success: false, authenticated: false };
   }
   return apiRequest<{ success: boolean; authenticated: boolean; user?: UserProfile }>(`/auth/verify`, {
     token,
+    signal,
     // No fallback - verification should fail properly if the server is unreachable
   });
 }
