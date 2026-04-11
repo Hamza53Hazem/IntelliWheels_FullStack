@@ -129,9 +129,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       console.log('[Auth] Validating session for token:', token.substring(0, 10) + '...');
       try {
-        // Add 5s timeout to prevent indefinite blocking on cold starts
+        // Add 15s timeout — non-blocking since we already trust stored user
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
         const response = await verifySession(token, controller.signal);
         clearTimeout(timeoutId);
         console.log('[Auth] Verify response:', response);
