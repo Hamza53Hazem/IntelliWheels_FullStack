@@ -117,9 +117,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
         return;
       }
+
+      // If we have a stored user, trust it immediately and validate in background
+      // This prevents the UI from being blocked during Render/backend cold starts
+      const hasStoredUser = !!user;
+      if (hasStoredUser) {
+        setSessionValidated(true);
+        setLoading(false);
+        console.log('[Auth] Trusting stored user, validating in background...');
+      }
+
       console.log('[Auth] Validating session for token:', token.substring(0, 10) + '...');
       try {
-        const response = await verifySession(token);
+        // Add 5s timeout to prevent indefinite blocking on cold starts
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        const response = await verifySession(token, controller.signal);
+        clearTimeout(timeoutId);
         console.log('[Auth] Verify response:', response);
         if (response.success && response.authenticated) {
           if (response.user) {
@@ -135,10 +149,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           await handleLogout();
         }
       } catch (err) {
-        // Token validation failed - silently logout
-        console.error('[Auth] Validation error:', err);
-        setSessionValidated(false);
-        await handleLogout();
+        if (hasStoredUser) {
+          // We already trusted the stored user; just log the timeout/error
+          console.warn('[Auth] Background validation failed (using stored user):', err);
+        } else {
+          // No stored user and validation failed - silently logout
+          console.error('[Auth] Validation error:', err);
+          setSessionValidated(false);
+          await handleLogout();
+        }
       } finally {
         setLoading(false);
       }
