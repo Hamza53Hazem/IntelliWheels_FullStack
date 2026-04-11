@@ -6,12 +6,16 @@ from flask import g, current_app
 try:
     import psycopg2
     import psycopg2.extras
+    import psycopg2.pool
     HAS_POSTGRES = True
 except ImportError:
     HAS_POSTGRES = False
     # Warn if DATABASE_URL is set but psycopg2 is missing
     if os.environ.get('DATABASE_URL'):
         print("[DB WARNING] DATABASE_URL is set but psycopg2 is not installed! Falling back to SQLite.")
+
+# Global connection pool (shared across requests for huge performance gain)
+_connection_pool = None
 
 def is_postgres():
     """Check if we're using PostgreSQL based on DATABASE_URL AND driver availability."""
@@ -150,53 +154,78 @@ class PostgresConnectionWrapper:
     def row_factory(self, value):
         pass  # PostgreSQL handles this differently
 
+def _get_database_url():
+    """Normalize the DATABASE_URL for psycopg2."""
+    database_url = os.environ.get('DATABASE_URL', '')
+    if database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    elif database_url.startswith('cockroachdb://'):
+        database_url = database_url.replace('cockroachdb://', 'postgresql://', 1)
+    # Ensure SSL for cloud databases
+    if 'sslmode' not in database_url and any(
+        host in database_url for host in [
+            'cockroachlabs.cloud', 'neon.tech', 'render.com', 'supabase.co'
+        ]
+    ):
+        separator = '&' if '?' in database_url else '?'
+        database_url += f'{separator}sslmode=require'
+    return database_url
+
+def _get_pool():
+    """Get or create the global connection pool (lazy init, thread-safe)."""
+    global _connection_pool
+    if _connection_pool is None and is_postgres() and HAS_POSTGRES:
+        database_url = _get_database_url()
+        try:
+            _connection_pool = psycopg2.pool.ThreadedConnectionPool(
+                minconn=2,
+                maxconn=10,
+                dsn=database_url,
+                connect_timeout=10,
+            )
+            print("[DB] Connection pool created (2-10 connections)")
+        except Exception as e:
+            print(f"[DB] Failed to create connection pool: {e}")
+            _connection_pool = None
+    return _connection_pool
+
 def get_db():
     if 'db' not in g:
         if is_postgres() and HAS_POSTGRES:
-            database_url = os.environ.get('DATABASE_URL')
-            # Normalize connection scheme to postgresql://
-            if database_url.startswith('postgres://'):
-                database_url = database_url.replace('postgres://', 'postgresql://', 1)
-            elif database_url.startswith('cockroachdb://'):
-                database_url = database_url.replace('cockroachdb://', 'postgresql://', 1)
-            # Ensure SSL for cloud databases (CockroachDB, Neon, Supabase, Render)
-            if 'sslmode' not in database_url and any(
-                host in database_url for host in [
-                    'cockroachlabs.cloud', 'neon.tech', 'render.com', 'supabase.co'
-                ]
-            ):
-                separator = '&' if '?' in database_url else '?'
-                database_url += f'{separator}sslmode=require'
-            # Retry connection for serverless cold starts (CockroachDB/Neon auto-suspend when idle)
-            max_retries = 3
-            for attempt in range(max_retries):
-                try:
-                    conn = psycopg2.connect(database_url, connect_timeout=10)
-                    break
-                except Exception as e:
-                    if attempt < max_retries - 1:
-                        import time
-                        print(f"[DB] Connection attempt {attempt + 1} failed, retrying: {e}")
-                        time.sleep(2 ** attempt)
-                    else:
-                        raise
-            # Set autocommit to False (default) but ensure we handle transactions properly
-            conn.autocommit = False
-            g.db = PostgresConnectionWrapper(conn)
-            print("[DB] Connected to PostgreSQL/CockroachDB")
+            pool = _get_pool()
+            if pool:
+                conn = pool.getconn()
+                conn.autocommit = False
+                g.db = PostgresConnectionWrapper(conn)
+                g._db_from_pool = True
+            else:
+                # Fallback: direct connection if pool failed
+                database_url = _get_database_url()
+                conn = psycopg2.connect(database_url, connect_timeout=10)
+                conn.autocommit = False
+                g.db = PostgresConnectionWrapper(conn)
+                g._db_from_pool = False
+                print("[DB] Connected to PostgreSQL/CockroachDB (no pool)")
         else:
             db_path = current_app.config['DATABASE']
             g.db = sqlite3.connect(db_path)
             g.db.row_factory = sqlite3.Row
-            print(f"[DB] Connected to SQLite: {db_path}")
+            g._db_from_pool = False
     return g.db
 
 def close_db(e=None):
     db = g.pop('db', None)
+    from_pool = g.pop('_db_from_pool', False)
     if db is not None:
-        if is_postgres():
-            print("[DB] Closing PostgreSQL connection")
-        db.close()
+        if from_pool and _connection_pool:
+            # Return connection to pool (don't close it!)
+            try:
+                db._connection.rollback()  # Clear any uncommitted transaction
+            except Exception:
+                pass
+            _connection_pool.putconn(db._connection)
+        else:
+            db.close()
 
 def init_db(app):
     with app.app_context():
