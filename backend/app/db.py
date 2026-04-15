@@ -19,10 +19,28 @@ except ImportError:
 _connection_pool = None
 
 
+def _force_sslmode_require(database_url):
+    """Return DATABASE_URL with sslmode=require and no sslrootcert override."""
+    parsed = urlparse(database_url)
+    query = dict(parse_qsl(parsed.query, keep_blank_values=True))
+    query['sslmode'] = 'require'
+    query.pop('sslrootcert', None)
+    return urlunparse(parsed._replace(query=urlencode(query)))
+
+
 def _create_postgres_connection(connect_timeout=10):
     """Create a direct PostgreSQL connection using normalized DATABASE_URL."""
     database_url = _get_database_url()
-    return psycopg2.connect(database_url, connect_timeout=connect_timeout)
+    try:
+        return psycopg2.connect(database_url, connect_timeout=connect_timeout)
+    except Exception as e:
+        error_text = str(e).lower()
+        # Fallback for managed environments where verify-full/verify-ca trust chain fails.
+        if 'certificate verify failed' in error_text or 'root certificate file' in error_text:
+            fallback_url = _force_sslmode_require(database_url)
+            print('[DB] SSL verification failed, retrying with sslmode=require')
+            return psycopg2.connect(fallback_url, connect_timeout=connect_timeout)
+        raise
 
 
 def _is_connection_alive(connection):
