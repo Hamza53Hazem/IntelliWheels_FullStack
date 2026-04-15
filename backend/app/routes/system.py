@@ -62,9 +62,19 @@ def health_check():
     
     # Check Cloudinary status
     cloudinary_configured = is_cloudinary_configured()
+
+    # Check database connectivity (not just DATABASE_URL presence)
+    db_ok = False
+    db_error = None
+    try:
+        db = get_db()
+        db.execute('SELECT 1').fetchone()
+        db_ok = True
+    except Exception as e:
+        db_error = str(e)
     
     return jsonify({
-        'status': 'healthy',
+        'status': 'healthy' if db_ok else 'degraded',
         'version': '2.0.6',  # Fixed: IndexError for SQLite row access
         'build_id': '20260120-fix7-indexerror',
         'ai_enabled': ai_configured,
@@ -74,6 +84,8 @@ def health_check():
         'frontend_origin': os.environ.get('FRONTEND_ORIGIN', 'not set'),
         'database_type': 'postgresql' if os.environ.get('DATABASE_URL') else 'sqlite',
         'database_url_set': bool(os.environ.get('DATABASE_URL')),
+        'database_connected': db_ok,
+        'database_error': db_error,
         'cloudinary_enabled': cloudinary_configured,
         'storage_type': 'cloudinary' if cloudinary_configured else 'local (ephemeral)'
     })
