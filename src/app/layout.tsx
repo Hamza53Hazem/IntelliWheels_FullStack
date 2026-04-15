@@ -22,6 +22,7 @@ const SITE_DESCRIPTION =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  applicationName: SITE_NAME,
   title: {
     default: "IntelliWheels – AI-Powered Car Marketplace | Jordan & GCC",
     template: "%s | IntelliWheels",
@@ -46,8 +47,20 @@ export const metadata: Metadata = {
   authors: [{ name: "IntelliWheels Team" }],
   creator: "IntelliWheels",
   publisher: "IntelliWheels",
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   alternates: { canonical: SITE_URL },
+  manifest: '/manifest.webmanifest',
+  category: 'automotive',
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -58,7 +71,7 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: "/intelliwheels_logo_exact_m4.png",
+        url: "/IntelliWheels_Logo_Dark.png",
         width: 1200,
         height: 630,
         alt: "IntelliWheels – AI-Powered Automotive Marketplace",
@@ -66,8 +79,21 @@ export const metadata: Metadata = {
     ],
   },
   icons: {
-    icon: "/intelliwheels_logo_exact_m4.png",
-    apple: "/intelliwheels_logo_exact_m4.png",
+    icon: [
+      { url: '/IntelliWheels.svg', type: 'image/svg+xml' },
+      { url: '/IntelliWheels_Logo_Dark.png', sizes: '32x32', type: 'image/png' },
+      { url: '/IntelliWheels_Logo_Dark.png', sizes: '192x192', type: 'image/png' },
+    ],
+    shortcut: '/IntelliWheels_Logo_Dark.png',
+    apple: [
+      { url: '/IntelliWheels_Logo_Dark.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'IntelliWheels - AI-Powered Car Marketplace | Jordan & GCC',
+    description: SITE_DESCRIPTION,
+    images: ['/IntelliWheels_Logo_Dark.png'],
   },
 };
 
@@ -82,7 +108,7 @@ const jsonLd = {
       url: SITE_URL,
       logo: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/intelliwheels_logo_exact_m4.png`,
+        url: `${SITE_URL}/IntelliWheels_Logo_Dark.png`,
       },
       description: SITE_DESCRIPTION,
       foundingDate: "2025",

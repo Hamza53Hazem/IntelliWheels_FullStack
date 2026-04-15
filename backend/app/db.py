@@ -17,6 +17,24 @@ except ImportError:
 # Global connection pool (shared across requests for huge performance gain)
 _connection_pool = None
 
+
+def _create_postgres_connection(connect_timeout=10):
+    """Create a direct PostgreSQL connection using normalized DATABASE_URL."""
+    database_url = _get_database_url()
+    return psycopg2.connect(database_url, connect_timeout=connect_timeout)
+
+
+def _is_connection_alive(connection):
+    """Lightweight ping to detect stale pooled connections."""
+    try:
+        cursor = connection.cursor()
+        cursor.execute('SELECT 1')
+        cursor.fetchone()
+        cursor.close()
+        return True
+    except Exception:
+        return False
+
 def is_postgres():
     """Check if we're using PostgreSQL based on DATABASE_URL AND driver availability."""
     # FIX: Only return True if we actually have the psycopg2 driver installed!
@@ -192,20 +210,38 @@ def _get_pool():
 def get_db():
     if 'db' not in g:
         if is_postgres() and HAS_POSTGRES:
-            pool = _get_pool()
-            if pool:
-                conn = pool.getconn()
+            try:
+                pool = _get_pool()
+                conn = None
+                from_pool = False
+
+                if pool:
+                    conn = pool.getconn()
+                    from_pool = True
+
+                    # Render/Cockroach connections can go stale. Replace dead pooled connections.
+                    if not _is_connection_alive(conn):
+                        print("[DB] Detected stale pooled connection; replacing")
+                        try:
+                            pool.putconn(conn, close=True)
+                        except Exception:
+                            pass
+                        conn = _create_postgres_connection(connect_timeout=10)
+                        from_pool = False
+
+                if conn is None:
+                    # Fallback: direct connection if pool failed or unavailable
+                    conn = _create_postgres_connection(connect_timeout=10)
+                    from_pool = False
+                    print("[DB] Connected to PostgreSQL/CockroachDB (no pool)")
+
                 conn.autocommit = False
                 g.db = PostgresConnectionWrapper(conn)
-                g._db_from_pool = True
-            else:
-                # Fallback: direct connection if pool failed
-                database_url = _get_database_url()
-                conn = psycopg2.connect(database_url, connect_timeout=10)
-                conn.autocommit = False
-                g.db = PostgresConnectionWrapper(conn)
-                g._db_from_pool = False
-                print("[DB] Connected to PostgreSQL/CockroachDB (no pool)")
+                g._db_from_pool = from_pool
+            except Exception as e:
+                # Bubble up a clear error for logs and error handlers.
+                print(f"[DB] PostgreSQL connection error: {e}")
+                raise RuntimeError("Database connection unavailable") from e
         else:
             db_path = current_app.config['DATABASE']
             g.db = sqlite3.connect(db_path)

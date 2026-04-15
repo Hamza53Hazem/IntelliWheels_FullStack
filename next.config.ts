@@ -56,12 +56,18 @@ export default withSentryConfig(nextConfig, {
   // Suppress source map upload logs
   silent: !process.env.CI,
 
+  // Disable Sentry build telemetry in CI logs
+  telemetry: false,
+
   // Upload source maps for readable stack traces in Sentry
   widenClientFileUpload: true,
 
-  // Automatically tree-shake Sentry logger statements to reduce bundle size
-  disableLogger: true,
-
-  // Automatically instrument Next.js Data Fetching methods
-  autoInstrumentServerFunctions: true,
+  webpack: {
+    // Replacement for deprecated disableLogger
+    treeshake: {
+      removeDebugLogging: true,
+    },
+    // Replacement for deprecated autoInstrumentServerFunctions
+    autoInstrumentServerFunctions: true,
+  },
 });
