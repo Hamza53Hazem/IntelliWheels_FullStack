@@ -4943,7 +4943,7 @@ export function AppView() {
               onClick={() => setActivePage('home')}
             >
               <img
-                src={resolvedTheme === 'dark' ? '/IntelliWheels_Logo_Dark.png' : '/IntelliWheels_Logo_Light.png'}
+                src={'/IntelliWheels_Logo_Dark.png'}
                 alt="IntelliWheels"
                 className="block h-auto max-h-16 md:max-h-[200px] md:max-w-[200px] w-auto object-contain object-center transition-transform group-hover:scale-105 bg-transparent"
               />
