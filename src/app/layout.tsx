@@ -80,7 +80,6 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/IntelliWheels.svg', type: 'image/svg+xml' },
       { url: '/IntelliWheels_Logo_Dark.png', sizes: '32x32', type: 'image/png' },
       { url: '/IntelliWheels_Logo_Dark.png', sizes: '192x192', type: 'image/png' },
     ],

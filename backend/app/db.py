@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
 from flask import g, current_app
 
 # PostgreSQL support
@@ -179,14 +180,32 @@ def _get_database_url():
         database_url = database_url.replace('postgres://', 'postgresql://', 1)
     elif database_url.startswith('cockroachdb://'):
         database_url = database_url.replace('cockroachdb://', 'postgresql://', 1)
-    # Ensure SSL for cloud databases
-    if 'sslmode' not in database_url and any(
-        host in database_url for host in [
-            'cockroachlabs.cloud', 'neon.tech', 'render.com', 'supabase.co'
-        ]
-    ):
-        separator = '&' if '?' in database_url else '?'
-        database_url += f'{separator}sslmode=require'
+
+    # Normalize query params so cloud Postgres/Cockroach works across environments.
+    try:
+        parsed = urlparse(database_url)
+        query = dict(parse_qsl(parsed.query, keep_blank_values=True))
+        host = (parsed.hostname or '').lower()
+        is_cloud_db = any(
+            domain in host for domain in [
+                'cockroachlabs.cloud', 'neon.tech', 'render.com', 'supabase.co'
+            ]
+        )
+
+        # If no sslmode is provided for a cloud DB, default to require.
+        if is_cloud_db and 'sslmode' not in query:
+            query['sslmode'] = 'require'
+
+        # Cockroach commonly uses verify-full; on Render/libpq this needs explicit system roots.
+        # Otherwise libpq tries /opt/render/.postgresql/root.crt and fails startup.
+        sslmode = query.get('sslmode', '').lower()
+        if is_cloud_db and sslmode in ('verify-ca', 'verify-full') and 'sslrootcert' not in query:
+            query['sslrootcert'] = 'system'
+
+        database_url = urlunparse(parsed._replace(query=urlencode(query)))
+    except Exception as e:
+        print(f"[DB] DATABASE_URL normalization warning: {e}")
+
     return database_url
 
 def _get_pool():
